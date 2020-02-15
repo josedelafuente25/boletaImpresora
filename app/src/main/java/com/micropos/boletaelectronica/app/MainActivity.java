@@ -1,7 +1,10 @@
-package com.micropos.boletaelectronica;
+package com.micropos.boletaelectronica.app;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.bluetooth.BluetoothAdapter;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -9,9 +12,15 @@ import android.widget.Button;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.micropos.boletaelectronica.R;
+
 import java.util.ArrayList;
 
+import HPRTAndroidSDK.HPRTPrinterHelper;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private final String TAG = "MainActivity";
 
     private Button btnCero;
     private Button btnUno;
@@ -27,17 +36,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button btnImprimir;
     private Button btnAgregar;
     private Button btnEliminar;
+    private Button btnConectar;
     private TextView tvIngresoValores;
     private TextView tvValoresIngresados;
+    private TextView tvTotal;
+    private TextView tvEstadoConexion;
     private ArrayList<String> listaValoresIngresados;
     private ScrollView svListaValoresIngresados;
 
+    private long total;
     private String valor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        btnConectar = findViewById(R.id.btn_conectar);
+        btnConectar.setOnClickListener(this);
+        tvEstadoConexion = findViewById(R.id.tv_estado_conexion);
+        tvEstadoConexion.setText(getResources().getString(R.string.desconectado));
+        tvEstadoConexion.setTextColor(getResources().getColor(R.color.colorRed));
+
+        tvTotal = findViewById(R.id.tv_total);
+        total = 0;
 
         svListaValoresIngresados = findViewById(R.id.sv_lista_valores_ingresados);
 
@@ -83,14 +105,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnNueve = findViewById(R.id.btn_nueve);
         btnNueve.setOnClickListener(this);
 
+        encenderBluetooth();
+
+    }
+
+    private void encenderBluetooth() {
+        BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (mBluetoothAdapter != null)
+            if (!mBluetoothAdapter.isEnabled())
+                mBluetoothAdapter.enable();
     }
 
     //TODO: Crear método para pasar el valor a palabra
 
     @Override
     public void onClick(View v) {
-        //TODO: Corregir el error que no permite agregar un valor con la cantidad máxima
-        // de caracteres permitido
+
+        if (v.getId() == R.id.btn_conectar) {
+            Intent serverIntent = new Intent(this, ActivityListaDispositivos.class);
+            startActivityForResult(serverIntent, HPRTPrinterHelper.ACTIVITY_CONNECT_BT);
+        }
 
         if (v.getId() == R.id.btn_borrar) {
 
@@ -170,6 +204,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             if ((v.getId() == R.id.btn_agregar) && !valor.equals("")) {
 
+                total += Long.parseLong(valor);
+                tvTotal.setText(String.valueOf(total));
+
                 listaValoresIngresados.add(valor);
 
                 String unionValores = "";
@@ -191,6 +228,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
 
             if (v.getId() == R.id.btn_eliminar && listaValoresIngresados.size() > 0) {
+
+
+                total -= Long.parseLong(listaValoresIngresados.get(listaValoresIngresados.size() - 1));
+                tvTotal.setText(String.valueOf(total));
 
                 listaValoresIngresados.remove(listaValoresIngresados.size() - 1);
 
@@ -231,5 +272,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
             tvIngresoValores.setText(strBuilder.toString());
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        try {
+            String strConectado;
+            switch (resultCode) {
+
+                case HPRTPrinterHelper.ACTIVITY_CONNECT_BT:
+                    strConectado = data.getExtras().getString("is_connected");
+                    if (strConectado.equals("OK")) {
+                        tvEstadoConexion.setText(R.string.conectado);
+                        tvEstadoConexion.setTextColor(getResources().getColor(R.color.colorGreen));
+                        break;
+                    }
+            }
+
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage());
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+
     }
 }

@@ -3,8 +3,10 @@
     <color name="colorPrimary">#009DE0</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
-
+    <color name="colorBackgroundScrollView">#E7E7E7</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorBlack">#000000</color>
     <color name="colorLightGray">#9C9B9B</color>
+    <color name="colorGreen">#16C728</color>
+    <color name="colorRed">#E71515</color>
 </resources>

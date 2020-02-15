@@ -2,4 +2,7 @@
 <resources>
     <dimen name="padding_et_valores_ingresados">5dp</dimen>
     <dimen name="padding_et_lista_valores_ingresados">10dp</dimen>
+    <dimen name="height_button">35dp</dimen>
+    <dimen name="padding_button">10dp</dimen>
+    <dimen name="height_tv_dispositivos_blueooth">50dp</dimen>
 </resources>
