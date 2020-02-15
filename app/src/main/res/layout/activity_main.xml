@@ -8,20 +8,22 @@
     tools:context=".MainActivity">
 
     <ScrollView
-        android:id="@+id/scrollView2"
+        android:id="@+id/sv_lista_valores_ingresados"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="150dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:fadeScrollbars="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        >
 
         <TextView
             android:id="@+id/tv_valores_ingresados"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="wrap_content"
             android:gravity="right"
             android:paddingEnd="@dimen/padding_et_lista_valores_ingresados"
             android:textColor="@color/colorBlack" />
@@ -113,6 +115,7 @@
                 android:text="3" />
 
             <Button
+                android:id="@+id/btn_eliminar"
                 android:layout_weight="3"
                 android:minWidth="100dp"
                 android:text="-" />
@@ -156,7 +159,7 @@
         android:paddingEnd="@dimen/padding_et_valores_ingresados"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scrollView2" />
+        app:layout_constraintTop_toBottomOf="@+id/sv_lista_valores_ingresados" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

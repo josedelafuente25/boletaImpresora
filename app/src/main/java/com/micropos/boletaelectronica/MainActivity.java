@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -25,9 +26,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button btnBorrar;
     private Button btnImprimir;
     private Button btnAgregar;
+    private Button btnEliminar;
     private TextView tvIngresoValores;
     private TextView tvValoresIngresados;
     private ArrayList<String> listaValoresIngresados;
+    private ScrollView svListaValoresIngresados;
 
     private String valor;
 
@@ -36,9 +39,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        svListaValoresIngresados = findViewById(R.id.sv_lista_valores_ingresados);
+
         tvValoresIngresados = findViewById(R.id.tv_valores_ingresados);
 
         listaValoresIngresados = new ArrayList<>();
+
+        btnEliminar = findViewById(R.id.btn_eliminar);
+        btnEliminar.setOnClickListener(this);
 
         btnAgregar = findViewById(R.id.btn_agregar);
         btnAgregar.setOnClickListener(this);
@@ -81,6 +89,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
+        //TODO: Corregir el error que no permite agregar un valor con la cantidad máxima
+        // de caracteres permitido
 
         if (v.getId() == R.id.btn_borrar) {
 
@@ -96,81 +106,116 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
-        if (valor.length() < 16) {
+        if (valor.length() <= 16) {
 
-            switch (v.getId()) {
-                case R.id.btn_cero:
-                    valor += "0";
-                    tvIngresoValores.setText(valor);
-                    break;
+            if (valor.length() < 16) {
+                switch (v.getId()) {
+                    case R.id.btn_cero:
+                        valor += "0";
+                        tvIngresoValores.setText(valor);
+                        break;
 
-                case R.id.btn_uno:
-                    valor += "1";
-                    tvIngresoValores.setText(valor);
-                    break;
+                    case R.id.btn_uno:
+                        valor += "1";
+                        tvIngresoValores.setText(valor);
+                        break;
 
-                case R.id.btn_dos:
-                    valor += "2";
-                    tvIngresoValores.setText(valor);
-                    break;
+                    case R.id.btn_dos:
+                        valor += "2";
+                        tvIngresoValores.setText(valor);
+                        break;
 
-                case R.id.btn_tres:
-                    valor += "3";
-                    tvIngresoValores.setText(valor);
-                    break;
+                    case R.id.btn_tres:
+                        valor += "3";
+                        tvIngresoValores.setText(valor);
+                        break;
 
-                case R.id.btn_cuatro:
-                    valor += "4";
-                    tvIngresoValores.setText(valor);
-                    break;
+                    case R.id.btn_cuatro:
+                        valor += "4";
+                        tvIngresoValores.setText(valor);
+                        break;
 
-                case R.id.btn_cinco:
-                    valor += "5";
-                    tvIngresoValores.setText(valor);
-                    break;
+                    case R.id.btn_cinco:
+                        valor += "5";
+                        tvIngresoValores.setText(valor);
+                        break;
 
-                case R.id.btn_seis:
-                    valor += "6";
-                    tvIngresoValores.setText(valor);
-                    break;
+                    case R.id.btn_seis:
+                        valor += "6";
+                        tvIngresoValores.setText(valor);
+                        break;
 
-                case R.id.btn_siete:
-                    valor += "7";
-                    tvIngresoValores.setText(valor);
-                    break;
+                    case R.id.btn_siete:
+                        valor += "7";
+                        tvIngresoValores.setText(valor);
+                        break;
 
-                case R.id.btn_ocho:
-                    valor += "8";
-                    tvIngresoValores.setText(valor);
-                    break;
+                    case R.id.btn_ocho:
+                        valor += "8";
+                        tvIngresoValores.setText(valor);
+                        break;
 
-                case R.id.btn_nueve:
-                    valor += "9";
-                    tvIngresoValores.setText(valor);
-                    break;
+                    case R.id.btn_nueve:
+                        valor += "9";
+                        tvIngresoValores.setText(valor);
+                        break;
 
-                case R.id.btn_imprimir:
+                    case R.id.btn_imprimir:
 
 
-                    break;
+                        break;
 
+                }
             }
 
-            if (v.getId() == R.id.btn_agregar) {
+            if ((v.getId() == R.id.btn_agregar) && !valor.equals("")) {
 
                 listaValoresIngresados.add(valor);
+
                 String unionValores = "";
                 for (int i = 0; i < listaValoresIngresados.size() - 1; i++)
                     unionValores += listaValoresIngresados.get(i) + "\n";
-
                 unionValores += listaValoresIngresados.get(listaValoresIngresados.size() - 1);
+
                 tvValoresIngresados.setLines(listaValoresIngresados.size());
                 tvValoresIngresados.setText(unionValores);
 
-
                 valor = "";
                 tvIngresoValores.setText("0");
+                svListaValoresIngresados.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        svListaValoresIngresados.fullScroll(View.FOCUS_DOWN);
+                    }
+                });
             }
+
+            if (v.getId() == R.id.btn_eliminar && listaValoresIngresados.size() > 0) {
+
+                listaValoresIngresados.remove(listaValoresIngresados.size() - 1);
+
+                if (listaValoresIngresados.size() == 0) {
+                    tvValoresIngresados.setText("");
+
+                } else {
+
+                    String unionValores = "";
+                    for (int i = 0; i < listaValoresIngresados.size() - 1; i++)
+                        unionValores += listaValoresIngresados.get(i) + "\n";
+                    unionValores += listaValoresIngresados.get(listaValoresIngresados.size() - 1);
+
+                    tvValoresIngresados.setLines(listaValoresIngresados.size());
+                    tvValoresIngresados.setText(unionValores);
+                }
+
+                svListaValoresIngresados.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        svListaValoresIngresados.fullScroll(View.FOCUS_DOWN);
+                    }
+                });
+            }
+
         }
 
         formatearValor();
@@ -186,7 +231,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
             tvIngresoValores.setText(strBuilder.toString());
         }
-
     }
-
 }
