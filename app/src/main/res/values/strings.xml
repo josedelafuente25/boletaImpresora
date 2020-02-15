@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">BoletaElectronica</string>
+
+    <string name="borrar">BORRAR</string>
+    <string name="imprimir">IMPRIMIR</string>
+
 </resources>
