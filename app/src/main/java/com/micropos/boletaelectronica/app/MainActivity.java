@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button btnSiete;
     private Button btnOcho;
     private Button btnNueve;
-    private Button btnMulitplicar;
     private Button btnBorrar;
     private Button btnImprimir;
     private Button btnAgregar;
@@ -163,7 +162,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (v.getId() == R.id.btn_imprimir) {
 
             try {
-                HPRTPrinterHelper.PrintText(hacerTexto());
+                imprimir();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -323,9 +322,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             tv.setText(str);
         }
+
     }
 
-    private String hacerTexto() throws Exception {
+    private void imprimir() throws Exception {
 
         String texto = "";
 
@@ -342,15 +342,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Date date = new Date();
         texto += "Fecha de Emision: " + format.format(date) + "\n";
         texto += "Medio Pago: \n\n";
+        HPRTPrinterHelper.PrintText(texto);
 
+        texto = "";
         texto += "Total: " + total + "\n\n";
+        HPRTPrinterHelper.PrintText(texto, 0, 2, 0);
 
+        texto = "";
         texto += "Timbre Electronico SII\n";
         texto += "Res 80 de 2014 Verfique Documento\n";
         texto += "www.sii.cl\n";
         texto += "www.micropos.cl/eboleta.html\n\n\n";
-
-        return texto;
+        HPRTPrinterHelper.PrintText(texto);
     }
 
     @Override

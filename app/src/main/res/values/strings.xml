@@ -4,6 +4,8 @@
     <string name="borrar">BORRAR</string>
     <string name="imprimir">IMPRIMIR</string>
     <string name="total">Total:</string>
+    <string name="agregar">AGREGAR</string>
+    <string name="eliminar">ELIMINAR</string>
     <string name="estado_conexion">Estado Conexión:</string>
     <string name="conectar">Conectar</string>
     <string name="conectado">Conectado</string>

@@ -92,7 +92,7 @@
                 android:id="@+id/btn_agregar"
                 android:layout_weight="3"
                 android:minWidth="100dp"
-                android:text="+" />
+                android:text="@string/agregar" />
 
         </TableRow>
 
@@ -118,10 +118,9 @@
 
             <Button
                 android:id="@+id/btn_eliminar"
-
                 android:layout_weight="3"
                 android:minWidth="100dp"
-                android:text="-" />
+                android:text="@string/eliminar" />
 
         </TableRow>
 
