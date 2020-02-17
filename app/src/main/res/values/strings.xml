@@ -9,7 +9,7 @@
     <string name="conectado">Conectado</string>
     <string name="desconectado">Desconectado</string>
 
-    <string name="conectando">Conectando..</string>
+    <string name="conectando">Conectando...</string>
     <string name="escanear">Escanear</string>
     <string name="detener">Detener</string>
     <string name="dispositivos_disponibles">Dispositivos Disponibles</string>

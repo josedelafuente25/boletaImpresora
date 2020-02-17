@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,13 +13,20 @@ import android.widget.TextView;
 
 import com.micropos.boletaelectronica.R;
 
+import java.nio.charset.CharsetDecoder;
+import java.nio.charset.CharsetEncoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import HPRTAndroidSDK.HPRTPrinterHelper;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private final String TAG = "MainActivity";
+    private final int NUM_MAX_CARACTERES_POR_VALOR = 16;
+    private final int NUM_MAX_CARACTERES_VALOR_TOTAL = 18;
+    private final int NUM_MAX_CARACTERES_POR_LINEA_EN_IMPRESORA = 32;
 
     private Button btnCero;
     private Button btnUno;
@@ -32,17 +38,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button btnSiete;
     private Button btnOcho;
     private Button btnNueve;
+    private Button btnMulitplicar;
     private Button btnBorrar;
     private Button btnImprimir;
     private Button btnAgregar;
     private Button btnEliminar;
     private Button btnConectar;
-    private TextView tvIngresoValores;
-    private TextView tvValoresIngresados;
+    private TextView tvValor;
+    private TextView tvListaValores;
     private TextView tvTotal;
     private TextView tvEstadoConexion;
     private ArrayList<String> listaValoresIngresados;
     private ScrollView svListaValoresIngresados;
+
+    BluetoothAdapter mBluetoothAdapter;
 
     private long total;
     private String valor;
@@ -60,10 +69,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         tvTotal = findViewById(R.id.tv_total);
         total = 0;
+        tvTotal.setText(String.valueOf(total));
 
         svListaValoresIngresados = findViewById(R.id.sv_lista_valores_ingresados);
 
-        tvValoresIngresados = findViewById(R.id.tv_valores_ingresados);
+        tvListaValores = findViewById(R.id.tv_valores_ingresados);
 
         listaValoresIngresados = new ArrayList<>();
 
@@ -75,6 +85,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         btnImprimir = findViewById(R.id.btn_imprimir);
         btnImprimir.setOnClickListener(this);
+        btnImprimir.setEnabled(false);
+        btnImprimir.setAlpha(0.5f);
 
         btnBorrar = findViewById(R.id.btn_borrar);
         btnBorrar.setOnClickListener(this);
@@ -82,9 +94,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnCero = findViewById(R.id.btn_cero);
         btnCero.setOnClickListener(this);
 
-        tvIngresoValores = findViewById(R.id.tv_ingreso_valores);
+        tvValor = findViewById(R.id.tv_ingreso_valores);
         valor = "";
-        tvIngresoValores.setText("0");
+        tvValor.setText("0");
 
         btnUno = findViewById(R.id.btn_uno);
         btnUno.setOnClickListener(this);
@@ -105,18 +117,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnNueve = findViewById(R.id.btn_nueve);
         btnNueve.setOnClickListener(this);
 
+        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         encenderBluetooth();
-
     }
 
     private void encenderBluetooth() {
-        BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (mBluetoothAdapter != null)
             if (!mBluetoothAdapter.isEnabled())
                 mBluetoothAdapter.enable();
     }
 
     //TODO: Crear método para pasar el valor a palabra
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (mBluetoothAdapter != null)
+            if (mBluetoothAdapter.isEnabled())
+                mBluetoothAdapter.disable();
+    }
 
     @Override
     public void onClick(View v) {
@@ -132,146 +152,205 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //Quitar el último valor
                 valor = valor.substring(0, valor.length() - 1);
 
-                if (valor.length() == 0) {
-                    tvIngresoValores.setText("0");
-                } else {
-                    tvIngresoValores.setText(valor);
-                }
+                if (valor.length() == 0)
+                    tvValor.setText("0");
+                else
+                    formatearValor(valor, tvValor);
+
             }
         }
 
-        if (valor.length() <= 16) {
+        if (v.getId() == R.id.btn_imprimir) {
 
-            if (valor.length() < 16) {
-                switch (v.getId()) {
-                    case R.id.btn_cero:
-                        valor += "0";
-                        tvIngresoValores.setText(valor);
-                        break;
-
-                    case R.id.btn_uno:
-                        valor += "1";
-                        tvIngresoValores.setText(valor);
-                        break;
-
-                    case R.id.btn_dos:
-                        valor += "2";
-                        tvIngresoValores.setText(valor);
-                        break;
-
-                    case R.id.btn_tres:
-                        valor += "3";
-                        tvIngresoValores.setText(valor);
-                        break;
-
-                    case R.id.btn_cuatro:
-                        valor += "4";
-                        tvIngresoValores.setText(valor);
-                        break;
-
-                    case R.id.btn_cinco:
-                        valor += "5";
-                        tvIngresoValores.setText(valor);
-                        break;
-
-                    case R.id.btn_seis:
-                        valor += "6";
-                        tvIngresoValores.setText(valor);
-                        break;
-
-                    case R.id.btn_siete:
-                        valor += "7";
-                        tvIngresoValores.setText(valor);
-                        break;
-
-                    case R.id.btn_ocho:
-                        valor += "8";
-                        tvIngresoValores.setText(valor);
-                        break;
-
-                    case R.id.btn_nueve:
-                        valor += "9";
-                        tvIngresoValores.setText(valor);
-                        break;
-
-                    case R.id.btn_imprimir:
-
-
-                        break;
-
-                }
+            try {
+                HPRTPrinterHelper.PrintText(hacerTexto());
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+        }
 
-            if ((v.getId() == R.id.btn_agregar) && !valor.equals("")) {
+        if (valor.length() < NUM_MAX_CARACTERES_POR_VALOR) {
 
-                total += Long.parseLong(valor);
-                tvTotal.setText(String.valueOf(total));
+            switch (v.getId()) {
+                case R.id.btn_cero:
+                    if (valor.length() > 0) {
+                        valor += "0";
+                        formatearValor(valor, tvValor);
+                    }
+                    break;
 
-                listaValoresIngresados.add(valor);
+                case R.id.btn_uno:
+                    valor += "1";
+                    formatearValor(valor, tvValor);
+                    break;
+
+                case R.id.btn_dos:
+                    valor += "2";
+                    formatearValor(valor, tvValor);
+                    break;
+
+                case R.id.btn_tres:
+                    valor += "3";
+                    formatearValor(valor, tvValor);
+                    break;
+
+                case R.id.btn_cuatro:
+                    valor += "4";
+                    formatearValor(valor, tvValor);
+                    break;
+
+                case R.id.btn_cinco:
+                    valor += "5";
+                    formatearValor(valor, tvValor);
+                    break;
+
+                case R.id.btn_seis:
+                    valor += "6";
+                    formatearValor(valor, tvValor);
+                    break;
+
+                case R.id.btn_siete:
+                    valor += "7";
+                    formatearValor(valor, tvValor);
+                    break;
+
+                case R.id.btn_ocho:
+                    valor += "8";
+                    formatearValor(valor, tvValor);
+                    break;
+
+                case R.id.btn_nueve:
+                    valor += "9";
+                    formatearValor(valor, tvValor);
+                    break;
+            }
+        }
+
+        if ((v.getId() == R.id.btn_agregar) && !valor.equals("")
+                && valor.length() <= NUM_MAX_CARACTERES_POR_VALOR) {
+
+            total += Long.parseLong(valor);
+            formatearValor(String.valueOf(total), tvTotal);
+
+            listaValoresIngresados.add(valor);
+
+            String unionValores = "";
+            for (int i = 0; i < listaValoresIngresados.size() - 1; i++)
+                unionValores += listaValoresIngresados.get(i) + "\n";
+            unionValores += listaValoresIngresados.get(listaValoresIngresados.size() - 1);
+
+            tvListaValores.setLines(listaValoresIngresados.size());
+            formatearValor(unionValores, tvListaValores);
+
+            valor = "";
+            tvValor.setText("0");
+
+            svListaValoresIngresados.post(new Runnable() {
+                @Override
+                public void run() {
+                    svListaValoresIngresados.fullScroll(View.FOCUS_DOWN);
+                }
+            });
+        }
+
+        if (v.getId() == R.id.btn_eliminar && listaValoresIngresados.size() > 0) {
+
+            total -= Long.parseLong(listaValoresIngresados.get(listaValoresIngresados.size() - 1));
+            formatearValor(String.valueOf(total), tvTotal);
+
+            listaValoresIngresados.remove(listaValoresIngresados.size() - 1);
+
+            if (listaValoresIngresados.size() == 0) {
+                tvListaValores.setText("");
+
+            } else {
 
                 String unionValores = "";
                 for (int i = 0; i < listaValoresIngresados.size() - 1; i++)
                     unionValores += listaValoresIngresados.get(i) + "\n";
                 unionValores += listaValoresIngresados.get(listaValoresIngresados.size() - 1);
 
-                tvValoresIngresados.setLines(listaValoresIngresados.size());
-                tvValoresIngresados.setText(unionValores);
-
-                valor = "";
-                tvIngresoValores.setText("0");
-                svListaValoresIngresados.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        svListaValoresIngresados.fullScroll(View.FOCUS_DOWN);
-                    }
-                });
+                tvListaValores.setLines(listaValoresIngresados.size());
+                formatearValor(unionValores, tvListaValores);
             }
 
-            if (v.getId() == R.id.btn_eliminar && listaValoresIngresados.size() > 0) {
-
-
-                total -= Long.parseLong(listaValoresIngresados.get(listaValoresIngresados.size() - 1));
-                tvTotal.setText(String.valueOf(total));
-
-                listaValoresIngresados.remove(listaValoresIngresados.size() - 1);
-
-                if (listaValoresIngresados.size() == 0) {
-                    tvValoresIngresados.setText("");
-
-                } else {
-
-                    String unionValores = "";
-                    for (int i = 0; i < listaValoresIngresados.size() - 1; i++)
-                        unionValores += listaValoresIngresados.get(i) + "\n";
-                    unionValores += listaValoresIngresados.get(listaValoresIngresados.size() - 1);
-
-                    tvValoresIngresados.setLines(listaValoresIngresados.size());
-                    tvValoresIngresados.setText(unionValores);
+            svListaValoresIngresados.post(new Runnable() {
+                @Override
+                public void run() {
+                    svListaValoresIngresados.fullScroll(View.FOCUS_DOWN);
                 }
-
-                svListaValoresIngresados.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        svListaValoresIngresados.fullScroll(View.FOCUS_DOWN);
-                    }
-                });
-            }
-
+            });
         }
-
-        formatearValor();
     }
 
-    private void formatearValor() {
+    private void formatearValor(String str, TextView tv) {
 
-        if (valor.length() > 3) {
-            StringBuilder strBuilder = new StringBuilder(valor);
+        if (str.length() > 3) {
+            StringBuilder strBuilder;
 
-            for (int i = valor.length() - 3; i > 0; i -= 3) {
-                strBuilder.insert(i, ".");
+            //Si el str es una lista
+            if (str.contains("\n")) {
+
+                String[] arrStr = str.split("\n");
+                String listaValores = "";
+
+                //Recorrer la lista de String
+                for (int i = 0; i < arrStr.length; i++) {
+
+                    //Recorrer un solo string de la lista
+                    strBuilder = new StringBuilder(arrStr[i]);
+                    if (arrStr[i].length() > 3) {
+                        for (int j = arrStr[i].length() - 3; j > 0; j -= 3)
+                            strBuilder.insert(j, ".");
+
+                    }
+                    listaValores += strBuilder.toString() + "\n";
+                }
+
+                //Eliminar el último salto de linea
+                listaValores = listaValores.substring(0, listaValores.length() - 1);
+
+                tv.setText(listaValores);
+
+            } else {
+
+                strBuilder = new StringBuilder(str);
+                for (int i = str.length() - 3; i > 0; i -= 3)
+                    strBuilder.insert(i, ".");
+
+                tv.setText(strBuilder.toString());
             }
-            tvIngresoValores.setText(strBuilder.toString());
+        } else {
+            tv.setText(str);
         }
+    }
+
+    private String hacerTexto() throws Exception {
+
+        String texto = "";
+
+        texto += "R.U.T: " + "12.345.678-9\n";
+        texto += "BOLETA ELECTRONICA N " + "99.999\n";
+        texto += "SII - TEMUCO\n\n";
+
+        texto += "Giro: \n";
+        texto += "Direccion: \n";
+        texto += "Fono: \n";
+        texto += "Correo: \n\n";
+
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        Date date = new Date();
+        texto += "Fecha de Emision: " + format.format(date) + "\n";
+        texto += "Medio Pago: \n\n";
+
+        texto += "Total: " + total + "\n\n";
+
+        texto += "Timbre Electronico SII\n";
+        texto += "Res 80 de 2014 Verfique Documento\n";
+        texto += "www.sii.cl\n";
+        texto += "www.micropos.cl/eboleta.html\n\n\n";
+
+        return texto;
     }
 
     @Override
@@ -286,6 +365,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     if (strConectado.equals("OK")) {
                         tvEstadoConexion.setText(R.string.conectado);
                         tvEstadoConexion.setTextColor(getResources().getColor(R.color.colorGreen));
+                        btnImprimir.setEnabled(true);
+                        btnImprimir.setAlpha(1);
                         break;
                     }
             }
@@ -294,6 +375,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Log.e(TAG, e.getMessage());
         }
         super.onActivityResult(requestCode, resultCode, data);
-
     }
 }

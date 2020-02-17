@@ -13,14 +13,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".app.ActivityListaDispositivos"
+        <activity
+            android:name=".app.ActivityListaDispositivos"
             android:excludeFromRecents="true"
             android:label="@string/buscar_dispositivos"
-            android:theme="@android:style/Theme.Dialog">
+            android:theme="@android:style/Theme.Dialog"></activity>
 
-        </activity>
-
-        <activity android:name=".app.MainActivity">
+        <activity
+            android:name=".app.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
