@@ -23,7 +23,7 @@
 
         <Button
             android:id="@+id/btn_escanear"
-            style="@style/Button"
+            style="@style/CyanButton"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="8dp"
             android:text="@string/escanear"
