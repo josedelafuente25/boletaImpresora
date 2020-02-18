@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <gradient
+        android:angle="90"
+        android:endColor="@color/colorWhite"
+        android:startColor="@color/colorPrimary"
+        android:type="linear" />
+
+    <padding
+        android:bottom="@dimen/padding_number_button"
+        android:top="@dimen/padding_number_button" />
+
+    <solid android:color="@color/colorGrayNumberButton" />
+
+</shape>

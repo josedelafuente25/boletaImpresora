@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,222 +7,182 @@
     android:background="@color/colorWhite"
     tools:context=".app.MainActivity">
 
-    <ScrollView
-        android:id="@+id/sv_lista_valores_ingresados"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/background_scroll_view"
-        android:fadeScrollbars="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/tv_valores_ingresados"
+
+        <TableLayout
+            android:id="@+id/tableLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="right"
-            android:paddingEnd="@dimen/padding_et_lista_valores_ingresados"
-            android:textColor="@color/colorBlack" />
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:background="@color/colorWhite"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_valor">
 
-    </ScrollView>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-    <TableLayout
-        android:id="@+id/tableLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/background_table_layout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_ingreso_valores">
+                <Button
+                    android:id="@+id/btn_siete"
+                    style="@style/NumberButton"
+                    android:layout_weight="1"
+                    android:text="7" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+                <Button
+                    android:id="@+id/btn_ocho"
+                    style="@style/NumberButton"
+                    android:layout_weight="1"
+                    android:text="8" />
 
-            <Button
-                android:id="@+id/btn_siete"
-                android:layout_weight="1"
-                android:text="7" />
-
-            <Button
-                android:id="@+id/btn_ocho"
-                android:layout_weight="1"
-                android:text="8" />
-
-            <Button
-                android:id="@+id/btn_nueve"
-                android:layout_weight="1"
-                android:text="9" />
-
-            <Button
-                android:id="@+id/btn_borrar"
-                android:layout_weight="3"
-                android:minWidth="100dp"
-                android:text="@string/borrar" />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <Button
-                android:id="@+id/btn_cuatro"
-                android:layout_weight="1"
-                android:text="4" />
-
-            <Button
-                android:id="@+id/btn_cinco"
-                android:layout_weight="1"
-                android:text="5" />
-
-            <Button
-                android:id="@+id/btn_seis"
-                android:layout_weight="1"
-                android:text="6" />
-
-            <Button
-                android:id="@+id/btn_agregar"
-                android:layout_weight="3"
-                android:minWidth="100dp"
-                android:text="@string/agregar" />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <Button
-                android:id="@+id/btn_uno"
-
-                android:layout_weight="1"
-                android:text="1" />
-
-            <Button
-                android:id="@+id/btn_dos"
-                android:layout_weight="1"
-                android:text="2" />
-
-            <Button
-                android:id="@+id/btn_tres"
-                android:layout_weight="1"
-                android:text="3" />
-
-            <Button
-                android:id="@+id/btn_eliminar"
-                android:layout_weight="3"
-                android:minWidth="100dp"
-                android:text="@string/eliminar" />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <Button
-                android:id="@+id/btn_cero"
-                android:layout_weight="1"
-                android:text="0" />
-
-            <Button
-                android:layout_weight="1"
-                android:text="" />
-
-            <Button
-                android:layout_weight="1"
-                android:text="" />
-
-            <Button
-                android:id="@+id/btn_imprimir"
-                android:layout_weight="3"
-                android:minWidth="100dp"
-                android:text="@string/imprimir" />
-
-        </TableRow>
-    </TableLayout>
-
-    <TextView
-        android:id="@+id/tv_ingreso_valores"
-        style="@style/TextViewIngresoValores"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:paddingStart="@dimen/padding_et_valores_ingresados"
-        android:paddingEnd="@dimen/padding_et_valores_ingresados"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="@string/total"
-        app:layout_constraintEnd_toStartOf="@+id/tv_total"
-        app:layout_constraintTop_toBottomOf="@+id/sv_lista_valores_ingresados" />
-
-    <TextView
-        android:id="@+id/tv_total"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:textColor="@color/colorBlack"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sv_lista_valores_ingresados" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="8dp"
-        android:text="@string/estado_conexion"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tableLayout"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <Button
-        android:id="@+id/btn_conectar"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/height_button"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/background_button"
-        android:paddingStart="@dimen/padding_button"
-        android:paddingEnd="@dimen/padding_button"
-        android:text="@string/conectar"
-        android:textColor="@color/colorWhite"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tableLayout"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/tv_estado_conexion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView3"
-        app:layout_constraintTop_toBottomOf="@+id/tableLayout"
-        app:layout_constraintVertical_bias="0.0" />
+                <Button
+                    android:id="@+id/btn_nueve"
+                    style="@style/NumberButton"
+                    android:layout_weight="1"
+                    android:text="9" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:id="@+id/btn_cuatro"
+                    style="@style/NumberButton"
+                    android:layout_weight="1"
+                    android:text="4" />
+
+                <Button
+
+                    android:id="@+id/btn_cinco"
+                    style="@style/NumberButton"
+                    android:layout_weight="1"
+                    android:text="5" />
+
+                <Button
+                    android:id="@+id/btn_seis"
+                    style="@style/NumberButton"
+                    android:layout_weight="1"
+                    android:text="6" />
+
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:id="@+id/btn_uno"
+                    style="@style/NumberButton"
+                    android:layout_weight="1"
+                    android:text="1" />
+
+                <Button
+                    android:id="@+id/btn_dos"
+                    style="@style/NumberButton"
+                    android:layout_weight="1"
+                    android:text="2" />
+
+                <Button
+                    android:id="@+id/btn_tres"
+                    style="@style/NumberButton"
+                    android:layout_weight="1"
+                    android:text="3" />
+
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:id="@+id/btn_cero"
+                    style="@style/NumberButton"
+                    android:layout_weight="1"
+                    android:text="0" />
+
+                <Button
+                    android:id="@+id/btn_imprimir"
+                    style="@style/OrangeButton"
+                    android:layout_weight="1"
+                    android:text="@string/imprimir" />
+
+                <ImageButton
+                    android:id="@+id/btn_borrar"
+                    style="@style/ImageButton"
+                    android:layout_weight="1"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_cancel_50dp"
+                    android:text="" />
+
+
+            </TableRow>
+        </TableLayout>
+
+        <TextView
+            android:id="@+id/tv_valor"
+            style="@style/TextViewValor"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:paddingStart="@dimen/padding_et_valores_ingresados"
+            android:paddingEnd="@dimen/padding_et_valores_ingresados"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/estado_conexion"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tableLayout"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <Button
+            android:id="@+id/btn_conectar"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/height_button"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/background_button"
+            android:paddingStart="@dimen/padding_button"
+            android:paddingEnd="@dimen/padding_button"
+            android:text="@string/conectar"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tableLayout"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/tv_estado_conexion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textView3"
+            app:layout_constraintTop_toBottomOf="@+id/tableLayout"
+            app:layout_constraintVertical_bias="0.0" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

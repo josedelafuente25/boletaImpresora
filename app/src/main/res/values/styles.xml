@@ -9,17 +9,19 @@
     </style>
 
     <style name="NumberButton" parent="Widget.AppCompat.Button">
-        <item name="android:layout_height">50dp</item>
-        <item name="android:layout_width">50dp</item>
+        <item name="android:layout_margin">@dimen/margin_number_button</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@drawable/background_number_button</item>
+        <item name="android:textSize">@dimen/size_text_number_button</item>
     </style>
 
-    <style name="TextViewIngresoValores" parent="Widget.AppCompat.TextView">
+    <style name="TextViewValor" parent="Widget.AppCompat.TextView">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">120dp</item>
         <item name="android:textColor">@color/colorBlack</item>
-        <item name="android:textSize">20dp</item>
-        <item name="android:gravity">right</item>
-        <item name="android:background">@drawable/background_text_view</item>
+        <item name="android:textSize">@dimen/text_size_valor</item>
+        <item name="android:gravity">right|bottom</item>
     </style>
 
     <style name="Button" parent="android:Widget.Button">
@@ -27,8 +29,21 @@
         <item name="android:textColor">@color/colorWhite</item>
         <item name="android:layout_height">35dp</item>
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:paddingRight">10dp</item>
-        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">@dimen/padding_button</item>
+        <item name="android:paddingLeft">@dimen/padding_button</item>
+    </style>
+
+    <style name="OrangeButton" parent="android:Widget.Button">
+        <item name="android:background">@color/colorOrange</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <style name="ImageButton" parent="android:Widget.ImageButton">
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">match_parent</item>
     </style>
 
     <style name="Title" parent="android:Widget.TextView">

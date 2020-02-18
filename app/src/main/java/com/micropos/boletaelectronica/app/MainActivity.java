@@ -6,17 +6,15 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ScrollView;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.micropos.boletaelectronica.R;
 
-import java.nio.charset.CharsetDecoder;
-import java.nio.charset.CharsetEncoder;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 
 import HPRTAndroidSDK.HPRTPrinterHelper;
@@ -38,21 +36,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button btnSiete;
     private Button btnOcho;
     private Button btnNueve;
-    private Button btnBorrar;
+    private ImageButton imgBtnBorrar;
     private Button btnImprimir;
-    private Button btnAgregar;
-    private Button btnEliminar;
     private Button btnConectar;
     private TextView tvValor;
-    private TextView tvListaValores;
-    private TextView tvTotal;
     private TextView tvEstadoConexion;
-    private ArrayList<String> listaValoresIngresados;
-    private ScrollView svListaValoresIngresados;
 
     BluetoothAdapter mBluetoothAdapter;
 
-    private long total;
     private String valor;
 
     @Override
@@ -66,36 +57,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tvEstadoConexion.setText(getResources().getString(R.string.desconectado));
         tvEstadoConexion.setTextColor(getResources().getColor(R.color.colorRed));
 
-        tvTotal = findViewById(R.id.tv_total);
-        total = 0;
-        tvTotal.setText(String.valueOf(total));
-
-        svListaValoresIngresados = findViewById(R.id.sv_lista_valores_ingresados);
-
-        tvListaValores = findViewById(R.id.tv_valores_ingresados);
-
-        listaValoresIngresados = new ArrayList<>();
-
-        btnEliminar = findViewById(R.id.btn_eliminar);
-        btnEliminar.setOnClickListener(this);
-
-        btnAgregar = findViewById(R.id.btn_agregar);
-        btnAgregar.setOnClickListener(this);
-
         btnImprimir = findViewById(R.id.btn_imprimir);
         btnImprimir.setOnClickListener(this);
         btnImprimir.setEnabled(false);
-        btnImprimir.setAlpha(0.5f);
+        btnImprimir.setAlpha(0.25f);
 
-        btnBorrar = findViewById(R.id.btn_borrar);
-        btnBorrar.setOnClickListener(this);
+        imgBtnBorrar = findViewById(R.id.btn_borrar);
+        imgBtnBorrar.setOnClickListener(this);
 
         btnCero = findViewById(R.id.btn_cero);
         btnCero.setOnClickListener(this);
 
-        tvValor = findViewById(R.id.tv_ingreso_valores);
+        tvValor = findViewById(R.id.tv_valor);
         valor = "";
-        tvValor.setText("0");
+        tvValor.setText("$0");
 
         btnUno = findViewById(R.id.btn_uno);
         btnUno.setOnClickListener(this);
@@ -126,8 +101,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 mBluetoothAdapter.enable();
     }
 
-    //TODO: Crear método para pasar el valor a palabra
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -152,9 +125,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 valor = valor.substring(0, valor.length() - 1);
 
                 if (valor.length() == 0)
-                    tvValor.setText("0");
+                    tvValor.setText("$0");
                 else
-                    formatearValor(valor, tvValor);
+                    tvValor.setText(formatearValor(valor));
 
             }
         }
@@ -174,153 +147,72 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 case R.id.btn_cero:
                     if (valor.length() > 0) {
                         valor += "0";
-                        formatearValor(valor, tvValor);
+                        tvValor.setText(formatearValor(valor));
                     }
                     break;
 
                 case R.id.btn_uno:
                     valor += "1";
-                    formatearValor(valor, tvValor);
+                    tvValor.setText(formatearValor(valor));
                     break;
 
                 case R.id.btn_dos:
                     valor += "2";
-                    formatearValor(valor, tvValor);
+                    tvValor.setText(formatearValor(valor));
                     break;
 
                 case R.id.btn_tres:
                     valor += "3";
-                    formatearValor(valor, tvValor);
+                    tvValor.setText(formatearValor(valor));
                     break;
 
                 case R.id.btn_cuatro:
                     valor += "4";
-                    formatearValor(valor, tvValor);
+                    tvValor.setText(formatearValor(valor));
                     break;
 
                 case R.id.btn_cinco:
                     valor += "5";
-                    formatearValor(valor, tvValor);
+                    tvValor.setText(formatearValor(valor));
                     break;
 
                 case R.id.btn_seis:
                     valor += "6";
-                    formatearValor(valor, tvValor);
+                    tvValor.setText(formatearValor(valor));
                     break;
 
                 case R.id.btn_siete:
                     valor += "7";
-                    formatearValor(valor, tvValor);
+                    tvValor.setText(formatearValor(valor));
                     break;
 
                 case R.id.btn_ocho:
                     valor += "8";
-                    formatearValor(valor, tvValor);
+                    tvValor.setText(formatearValor(valor));
                     break;
 
                 case R.id.btn_nueve:
                     valor += "9";
-                    formatearValor(valor, tvValor);
+                    tvValor.setText(formatearValor(valor));
                     break;
             }
         }
 
-        if ((v.getId() == R.id.btn_agregar) && !valor.equals("")
-                && valor.length() <= NUM_MAX_CARACTERES_POR_VALOR) {
-
-            total += Long.parseLong(valor);
-            formatearValor(String.valueOf(total), tvTotal);
-
-            listaValoresIngresados.add(valor);
-
-            String unionValores = "";
-            for (int i = 0; i < listaValoresIngresados.size() - 1; i++)
-                unionValores += listaValoresIngresados.get(i) + "\n";
-            unionValores += listaValoresIngresados.get(listaValoresIngresados.size() - 1);
-
-            tvListaValores.setLines(listaValoresIngresados.size());
-            formatearValor(unionValores, tvListaValores);
-
-            valor = "";
-            tvValor.setText("0");
-
-            svListaValoresIngresados.post(new Runnable() {
-                @Override
-                public void run() {
-                    svListaValoresIngresados.fullScroll(View.FOCUS_DOWN);
-                }
-            });
-        }
-
-        if (v.getId() == R.id.btn_eliminar && listaValoresIngresados.size() > 0) {
-
-            total -= Long.parseLong(listaValoresIngresados.get(listaValoresIngresados.size() - 1));
-            formatearValor(String.valueOf(total), tvTotal);
-
-            listaValoresIngresados.remove(listaValoresIngresados.size() - 1);
-
-            if (listaValoresIngresados.size() == 0) {
-                tvListaValores.setText("");
-
-            } else {
-
-                String unionValores = "";
-                for (int i = 0; i < listaValoresIngresados.size() - 1; i++)
-                    unionValores += listaValoresIngresados.get(i) + "\n";
-                unionValores += listaValoresIngresados.get(listaValoresIngresados.size() - 1);
-
-                tvListaValores.setLines(listaValoresIngresados.size());
-                formatearValor(unionValores, tvListaValores);
-            }
-
-            svListaValoresIngresados.post(new Runnable() {
-                @Override
-                public void run() {
-                    svListaValoresIngresados.fullScroll(View.FOCUS_DOWN);
-                }
-            });
-        }
     }
 
-    private void formatearValor(String str, TextView tv) {
+    private String formatearValor(String str) {
 
         if (str.length() > 3) {
             StringBuilder strBuilder;
 
-            //Si el str es una lista
-            if (str.contains("\n")) {
+            strBuilder = new StringBuilder(str);
+            for (int i = str.length() - 3; i > 0; i -= 3)
+                strBuilder.insert(i, ".");
 
-                String[] arrStr = str.split("\n");
-                String listaValores = "";
+            return "$" + strBuilder.toString();
 
-                //Recorrer la lista de String
-                for (int i = 0; i < arrStr.length; i++) {
-
-                    //Recorrer un solo string de la lista
-                    strBuilder = new StringBuilder(arrStr[i]);
-                    if (arrStr[i].length() > 3) {
-                        for (int j = arrStr[i].length() - 3; j > 0; j -= 3)
-                            strBuilder.insert(j, ".");
-
-                    }
-                    listaValores += strBuilder.toString() + "\n";
-                }
-
-                //Eliminar el último salto de linea
-                listaValores = listaValores.substring(0, listaValores.length() - 1);
-
-                tv.setText(listaValores);
-
-            } else {
-
-                strBuilder = new StringBuilder(str);
-                for (int i = str.length() - 3; i > 0; i -= 3)
-                    strBuilder.insert(i, ".");
-
-                tv.setText(strBuilder.toString());
-            }
         } else {
-            tv.setText(str);
+            return "$" + str;
         }
 
     }
@@ -338,14 +230,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         texto += "Fono: \n";
         texto += "Correo: \n\n";
 
-        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy\nHH:mm:ss");
         Date date = new Date();
-        texto += "Fecha de Emision: " + format.format(date) + "\n";
-        texto += "Medio Pago: \n\n";
+        texto += "Fecha de Emision: " + format.format(date) + "\n\n";
         HPRTPrinterHelper.PrintText(texto);
 
         texto = "";
-        texto += "Total: " + total + "\n\n";
+        texto += "Total: " + formatearValor(valor) + "\n\n";
         HPRTPrinterHelper.PrintText(texto, 0, 2, 0);
 
         texto = "";
