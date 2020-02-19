@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    android:divider="@drawable/divider"
+    android:orientation="vertical"
+    android:showDividers="middle"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/app_bar_activity_configuraciones">
+
+    <TextView
+        android:layout_marginTop="@dimen/margin_top"
+        android:id="@+id/tv_info_comercio"
+        style="@style/BlackText"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_item_config"
+        android:paddingStart="@dimen/padding_left"
+        android:paddingEnd="@dimen/padding_left"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:gravity="center_vertical"
+        android:text="@string/info_comercio" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switch_modo_calculadora"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_item_config"
+        android:paddingStart="@dimen/padding_left"
+        android:paddingEnd="@dimen/padding_left"
+        android:text="@string/activar_modo_calculadora" />
+
+</LinearLayout>
+
