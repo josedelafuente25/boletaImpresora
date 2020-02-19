@@ -86,10 +86,11 @@
                 android:text="9" />
 
             <Button
-                android:id="@+id/btn_agregar"
+                android:id="@+id/btn_limpiar"
                 style="@style/OperatorButton"
                 android:layout_weight="1"
-                android:text="OK" />
+                android:text="C" />
+
 
         </TableRow>
 
@@ -117,10 +118,10 @@
                 android:text="6" />
 
             <Button
-                android:id="@+id/btn_limpiar"
+                android:id="@+id/btn_agregar"
                 style="@style/OperatorButton"
                 android:layout_weight="1"
-                android:text="C" />
+                android:text="+" />
 
         </TableRow>
 
