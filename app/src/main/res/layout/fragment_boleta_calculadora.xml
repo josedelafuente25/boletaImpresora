@@ -87,7 +87,7 @@
 
             <Button
                 android:id="@+id/btn_agregar"
-                style="@style/NumberButton"
+                style="@style/OperatorButton"
                 android:layout_weight="1"
                 android:text="OK" />
 
@@ -118,7 +118,7 @@
 
             <Button
                 android:id="@+id/btn_limpiar"
-                style="@style/NumberButton"
+                style="@style/OperatorButton"
                 android:layout_weight="1"
                 android:text="C" />
 
@@ -148,7 +148,7 @@
 
             <Button
                 android:id="@+id/btn_multiplicar"
-                style="@style/NumberButton"
+                style="@style/OperatorButton"
                 android:layout_weight="1"
                 android:text="*" />
 
