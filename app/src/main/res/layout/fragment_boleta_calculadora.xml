@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite">
+
+    <TextView
+        android:id="@+id/tv_folio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_valor_total"
+        style="@style/TextViewValor"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:paddingStart="@dimen/padding_et_valores_ingresados"
+        android:paddingEnd="@dimen/padding_et_valores_ingresados"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_folio" />
+
+    <TextView
+        android:id="@+id/tv_ingreso_valor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_valor"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/background_text_view"
+        android:paddingStart="@dimen/padding_et_valores_ingresados"
+        android:paddingEnd="@dimen/padding_et_valores_ingresados"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_valor_total" />
+
+    <TableLayout
+        android:id="@+id/tableLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:background="@color/colorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_ingreso_valor">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/btn_siete"
+                style="@style/NumberButton"
+                android:layout_weight="1"
+                android:text="7" />
+
+            <Button
+                android:id="@+id/btn_ocho"
+                style="@style/NumberButton"
+                android:layout_weight="1"
+                android:text="8" />
+
+            <Button
+                android:id="@+id/btn_nueve"
+                style="@style/NumberButton"
+                android:layout_weight="1"
+                android:text="9" />
+
+            <Button
+                android:id="@+id/btn_agregar"
+                style="@style/NumberButton"
+                android:layout_weight="1"
+                android:text="OK" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/btn_cuatro"
+                style="@style/NumberButton"
+                android:layout_weight="1"
+                android:text="4" />
+
+            <Button
+
+                android:id="@+id/btn_cinco"
+                style="@style/NumberButton"
+                android:layout_weight="1"
+                android:text="5" />
+
+            <Button
+                android:id="@+id/btn_seis"
+                style="@style/NumberButton"
+                android:layout_weight="1"
+                android:text="6" />
+
+            <Button
+                android:id="@+id/btn_limpiar"
+                style="@style/NumberButton"
+                android:layout_weight="1"
+                android:text="C" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/btn_uno"
+                style="@style/NumberButton"
+                android:layout_weight="1"
+                android:text="1" />
+
+            <Button
+                android:id="@+id/btn_dos"
+                style="@style/NumberButton"
+                android:layout_weight="1"
+                android:text="2" />
+
+            <Button
+                android:id="@+id/btn_tres"
+                style="@style/NumberButton"
+                android:layout_weight="1"
+                android:text="3" />
+
+            <Button
+                android:id="@+id/btn_multiplicar"
+                style="@style/NumberButton"
+                android:layout_weight="1"
+                android:text="*" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/btn_cero"
+                style="@style/NumberButton"
+                android:layout_weight="1"
+                android:text="0" />
+
+            <Button
+                android:id="@+id/btn_imprimir"
+                style="@style/OrangeButton"
+                android:layout_weight="1"
+                android:text="@string/imprimir" />
+
+            <ImageButton
+                android:id="@+id/btn_borrar"
+                style="@style/ImageButton"
+                android:layout_weight="1"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_cancel_50dp"
+                android:text="" />
+
+        </TableRow>
+    </TableLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

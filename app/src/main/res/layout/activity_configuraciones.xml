@@ -24,13 +24,5 @@
         android:gravity="center_vertical"
         android:text="@string/info_comercio" />
 
-    <com.google.android.material.switchmaterial.SwitchMaterial
-        android:id="@+id/switch_modo_calculadora"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/height_item_config"
-        android:paddingStart="@dimen/padding_left"
-        android:paddingEnd="@dimen/padding_left"
-        android:text="@string/activar_modo_calculadora" />
-
 </LinearLayout>
 
