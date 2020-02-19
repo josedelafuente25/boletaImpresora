@@ -14,7 +14,7 @@
     <TextView
         android:layout_marginTop="@dimen/margin_top"
         android:id="@+id/tv_info_comercio"
-        style="@style/BlackText"
+        style="@style/BlackTextTextView"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_item_config"
         android:paddingStart="@dimen/padding_left"
