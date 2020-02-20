@@ -13,17 +13,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".app.ActivityConfiguraciones"
+        <activity
+            android:name=".app.ActivityConfiguraciones"
             android:label="@string/menu_configuraciones"
-            android:theme="@style/AppTheme.NoActionBar"
-            >
+            android:theme="@style/AppTheme.NoActionBar">
 
         </activity>
 
         <activity
             android:name=".app.MainActivityNavDrawer"
             android:label="@string/title_activity_main_nav_drawer"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity
             android:name=".app.ActivityListaDispositivos"

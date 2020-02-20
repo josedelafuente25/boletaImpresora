@@ -297,7 +297,10 @@ public class FragmentBoletaCalculadora extends Fragment implements View.OnClickL
         String texto = "";
 
         texto += "R.U.T: " + "12.345.678-9\n";
+
+        //TODO: Reemplazar por folio
         texto += "BOLETA ELECTRONICA N " + "99.999\n";
+
         texto += "SII - TEMUCO\n\n";
 
         texto += "Giro: \n";

@@ -28,11 +28,8 @@ import HPRTAndroidSDK.HPRTPrinterHelper;
 
 public class ActivityListaDispositivos extends Activity implements AdapterListaDispositivos.OnClickTextViewListener {
 
-    private RecyclerView rvDispEmparejados;
     private RecyclerView rvDispDisponibles;
-    private RecyclerView.Adapter mAdapterDispEmparejados;
     private RecyclerView.Adapter mAdapterDispDisponibles;
-    private RecyclerView.LayoutManager lmDispEmparejados;
     private RecyclerView.LayoutManager lmDispDisponibles;
 
     public BluetoothAdapter mBluetoothAdapter;
@@ -113,7 +110,6 @@ public class ActivityListaDispositivos extends Activity implements AdapterListaD
         intent.addAction(BluetoothAdapter.ACTION_STATE_CHANGED);
         intent.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
         registerReceiver(mReceptor, intent);
-
     }
 
     public void doDiscovery() {
