@@ -44,7 +44,7 @@ public class FragmentBoleta extends Fragment implements View.OnClickListener {
     private TextView tvEstadoConexion;
     private TextView tvFolio;
 
-    private String valor;
+    private String valorTotal;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -72,7 +72,7 @@ public class FragmentBoleta extends Fragment implements View.OnClickListener {
         btnCero.setOnClickListener(this);
 
         tvValor = root.findViewById(R.id.tv_ingreso_valor);
-        valor = "";
+        valorTotal = "";
         tvValor.setText("$0");
 
         btnUno = root.findViewById(R.id.btn_uno);
@@ -94,6 +94,13 @@ public class FragmentBoleta extends Fragment implements View.OnClickListener {
         btnNueve = root.findViewById(R.id.btn_nueve);
         btnNueve.setOnClickListener(this);
 
+        if (HPRTPrinterHelper.IsOpened()) {
+            btnImprimir.setEnabled(true);
+            btnImprimir.setAlpha(1);
+            tvEstadoConexion.setText(getResources().getString(R.string.conectado));
+            tvEstadoConexion.setTextColor(getResources().getColor(R.color.colorGreen));
+        }
+
         return root;
     }
 
@@ -114,82 +121,84 @@ public class FragmentBoleta extends Fragment implements View.OnClickListener {
 
         if (v.getId() == R.id.btn_borrar) {
 
-            if (valor.length() > 0) {
+            if (valorTotal.length() > 0) {
                 //Quitar el último valor
-                valor = valor.substring(0, valor.length() - 1);
+                valorTotal = valorTotal.substring(0, valorTotal.length() - 1);
 
-                if (valor.length() == 0)
+                if (valorTotal.length() == 0)
                     tvValor.setText("$0");
                 else
-                    tvValor.setText(formatearValor(valor));
+                    tvValor.setText(formatearValor(valorTotal));
 
             }
         }
 
         if (v.getId() == R.id.btn_imprimir) {
 
-            try {
-                imprimir();
-                valor = "";
-                tvValor.setText("$0");
-            } catch (Exception e) {
-                e.printStackTrace();
+            if (valorTotal.length() > 0) {
+                try {
+                    imprimir();
+                    valorTotal = "";
+                    tvValor.setText("$0");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
 
-        if (valor.length() < NUM_MAX_CARACTERES_POR_VALOR) {
+        if (valorTotal.length() < NUM_MAX_CARACTERES_POR_VALOR) {
 
             switch (v.getId()) {
                 case R.id.btn_cero:
-                    if (valor.length() > 0) {
-                        valor += "0";
-                        tvValor.setText(formatearValor(valor));
+                    if (valorTotal.length() > 0) {
+                        valorTotal += "0";
+                        tvValor.setText(formatearValor(valorTotal));
                     }
                     break;
 
                 case R.id.btn_uno:
-                    valor += "1";
-                    tvValor.setText(formatearValor(valor));
+                    valorTotal += "1";
+                    tvValor.setText(formatearValor(valorTotal));
                     break;
 
                 case R.id.btn_dos:
-                    valor += "2";
-                    tvValor.setText(formatearValor(valor));
+                    valorTotal += "2";
+                    tvValor.setText(formatearValor(valorTotal));
                     break;
 
                 case R.id.btn_tres:
-                    valor += "3";
-                    tvValor.setText(formatearValor(valor));
+                    valorTotal += "3";
+                    tvValor.setText(formatearValor(valorTotal));
                     break;
 
                 case R.id.btn_cuatro:
-                    valor += "4";
-                    tvValor.setText(formatearValor(valor));
+                    valorTotal += "4";
+                    tvValor.setText(formatearValor(valorTotal));
                     break;
 
                 case R.id.btn_cinco:
-                    valor += "5";
-                    tvValor.setText(formatearValor(valor));
+                    valorTotal += "5";
+                    tvValor.setText(formatearValor(valorTotal));
                     break;
 
                 case R.id.btn_seis:
-                    valor += "6";
-                    tvValor.setText(formatearValor(valor));
+                    valorTotal += "6";
+                    tvValor.setText(formatearValor(valorTotal));
                     break;
 
                 case R.id.btn_siete:
-                    valor += "7";
-                    tvValor.setText(formatearValor(valor));
+                    valorTotal += "7";
+                    tvValor.setText(formatearValor(valorTotal));
                     break;
 
                 case R.id.btn_ocho:
-                    valor += "8";
-                    tvValor.setText(formatearValor(valor));
+                    valorTotal += "8";
+                    tvValor.setText(formatearValor(valorTotal));
                     break;
 
                 case R.id.btn_nueve:
-                    valor += "9";
-                    tvValor.setText(formatearValor(valor));
+                    valorTotal += "9";
+                    tvValor.setText(formatearValor(valorTotal));
                     break;
             }
         }
@@ -231,7 +240,7 @@ public class FragmentBoleta extends Fragment implements View.OnClickListener {
         HPRTPrinterHelper.PrintText(texto);
 
         texto = "";
-        texto += "Total: " + formatearValor(valor) + "\n\n";
+        texto += "Total: " + formatearValor(valorTotal) + "\n\n";
         HPRTPrinterHelper.PrintText(texto, 0, 2, 0);
 
         texto = "";

@@ -1,5 +1,6 @@
 package com.micropos.boletaelectronica.app.fragments;
 
+import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -109,6 +110,13 @@ public class FragmentBoletaCalculadora extends Fragment implements View.OnClickL
         btnNueve = root.findViewById(R.id.btn_nueve);
         btnNueve.setOnClickListener(this);
 
+        if (HPRTPrinterHelper.IsOpened()) {
+            btnImprimir.setEnabled(true);
+            btnImprimir.setAlpha(1);
+            tvEstadoConexion.setText(getResources().getString(R.string.conectado));
+            tvEstadoConexion.setTextColor(getResources().getColor(R.color.colorGreen));
+        }
+
         return root;
     }
 
@@ -146,14 +154,16 @@ public class FragmentBoletaCalculadora extends Fragment implements View.OnClickL
             case R.id.btn_imprimir:
 
                 try {
-                    imprimir();
-                    //TODO: Solicitar otro folio
+                    if (!valorTotal.equals("0")) {
+                        imprimir();
+                        //TODO: Solicitar otro folio
 
-                    valor = "";
-                    valorTotal = "0";
+                        valor = "";
+                        valorTotal = "0";
 
-                    tvValor.setText("$0");
-                    tvValorTotal.setText("$0");
+                        tvValor.setText("$0");
+                        tvValorTotal.setText("$0");
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -258,7 +268,6 @@ public class FragmentBoletaCalculadora extends Fragment implements View.OnClickL
                     break;
             }
         }
-
     }
 
     private String formatearMultiplicacion(String str) {
