@@ -10,4 +10,7 @@
     <color name="colorLightGray">#9C9B9B</color>
     <color name="colorGreen">#16C728</color>
     <color name="colorRed">#E71515</color>
+    <color name="colorLogIn">#800526</color>
+    <color name="colorWhiteTrasparency">#CEFFFFFF</color>
+    <color name="colorDivider">#E6E6E6</color>
 </resources>

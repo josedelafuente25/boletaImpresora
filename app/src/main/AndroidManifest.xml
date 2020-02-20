@@ -13,15 +13,28 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <activity android:name=".app.ActivityConfiguraciones"
+            android:label="@string/menu_configuraciones"
+            android:theme="@style/AppTheme.NoActionBar"
+            >
+
+        </activity>
+
+        <activity
+            android:name=".app.MainActivityNavDrawer"
+            android:label="@string/title_activity_main_nav_drawer"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+
         <activity
             android:name=".app.ActivityListaDispositivos"
             android:excludeFromRecents="true"
             android:label="@string/buscar_dispositivos"
-            android:theme="@android:style/Theme.Dialog"></activity>
+            android:theme="@android:style/Theme.Dialog" />
 
         <activity
-            android:name=".app.MainActivity"
-            android:screenOrientation="portrait">
+            android:name=".login.LogInActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

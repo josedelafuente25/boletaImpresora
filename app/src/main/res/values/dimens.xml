@@ -1,0 +1,24 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="nav_header_vertical_spacing">8dp</dimen>
+    <dimen name="nav_header_height">176dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+
+    <dimen name="padding_et_valores_ingresados">5dp</dimen>
+    <dimen name="padding_et_lista_valores_ingresados">10dp</dimen>
+    <dimen name="height_button">35dp</dimen>
+    <dimen name="padding_button">10dp</dimen>
+    <dimen name="height_tv_dispositivos_bluetooth">50dp</dimen>
+    <dimen name="size_text_number_button">30dp</dimen>
+    <dimen name="margin_number_button">1dp</dimen>
+    <dimen name="padding_number_button">10dp</dimen>
+    <dimen name="text_size_valor_total">40dp</dimen>
+    <dimen name="text_size_valor">20dp</dimen>
+
+    <dimen name="padding_left">16dp</dimen>
+    <dimen name="margin_top">8dp</dimen>
+    <dimen name="height_item_config">40dp</dimen>
+
+</resources>

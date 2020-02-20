@@ -17,4 +17,26 @@
     <string name="dispositivos_disponibles">Dispositivos Disponibles</string>
     <string name="buscar_dispositivos">Buscar Dispositivos</string>
 
+    <string name="title_activity_main_nav_drawer">MainActivityNavDrawer</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">MicroPos</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="activar_modo_calculadora">Activar Modo Calculadora</string>
+    <string name="info_comercio">Información del Comercio</string>
+
+    <string name="menu_boleta_calculadora">Boleta Calculadora</string>
+    <string name="menu_boleta">Boleta</string>
+    <string name="menu_configuraciones">Configuraciones</string>
+
+    <string name="ingresar">Ingresar</string>
+    <string name="registrarse">Registrarse</string>
+    <string name="usuario">Usuario</string>
+    <string name="contrasena">Contraseña</string>
+    <string name="usuario_contrasena_incorrecto">Usuario y/o Contraseña incorrecto</string>
+    <string name="mantener_sesion_iniciada">Mantener sesión iniciada</string>
+
 </resources>

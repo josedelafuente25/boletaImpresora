@@ -6,6 +6,6 @@
         android:bottom="@dimen/padding_number_button"
         android:top="@dimen/padding_number_button" />
 
-    <solid android:color="@color/colorGrayNumberButton" />
+    <solid android:color="@color/colorPrimary" />
 
 </shape>

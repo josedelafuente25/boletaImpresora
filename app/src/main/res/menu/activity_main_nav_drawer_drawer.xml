@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_boleta"
+            android:icon="@drawable/ic_file_24dp"
+            android:title="@string/menu_boleta" />
+
+        <item
+            android:id="@+id/nav_boleta_calculadora"
+            android:icon="@drawable/ic_calculator_24dp"
+            android:title="@string/menu_boleta_calculadora" />
+
+    </group>
+
+    <group
+        android:id="@+id/group_config"
+        android:checkableBehavior="none">
+
+        <item
+            android:id="@+id/nav_conf"
+            android:icon="@drawable/ic_gear_24dp"
+            android:title="@string/menu_configuraciones" />
+
+    </group>
+</menu>
