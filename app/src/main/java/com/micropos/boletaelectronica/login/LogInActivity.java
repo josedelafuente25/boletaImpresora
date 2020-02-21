@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.micropos.boletaelectronica.R;
 import com.micropos.boletaelectronica.app.MainActivityNavDrawer;
 import com.micropos.boletaelectronica.db.DBManager;
+import com.micropos.boletaelectronica.db.UtilidadesDB;
 
 public class LogInActivity extends AppCompatActivity implements View.OnClickListener {
     private Button btnIngresar;
@@ -26,7 +27,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
 
-        dbManager = new DBManager(this, "bd_usuarios", null, 1);
+        dbManager = new DBManager(this, UtilidadesDB.NOMBRE_DB, null, UtilidadesDB.DB_VERSION);
 
         textViewIncorrectPasswordUser = findViewById(R.id.text_view_usuario_contrasena_incorrecto);
         textViewIncorrectPasswordUser.setVisibility(View.INVISIBLE);
@@ -46,8 +47,8 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                 this.startActivity(intent);
                 break;
                 /* Codigo comentado para saltarse el LogIn
-                credenciales.put(Utilidades.CAMPO_NOMBRE, editTextNombreUsuario.getText().toString());
-                credenciales.put(Utilidades.CAMPO_CONSTRASENA, editTextConstrasena.getText().toString());
+                credenciales.put(UtilidadesDB.CAMPO_NOMBRE, editTextNombreUsuario.getText().toString());
+                credenciales.put(UtilidadesDB.CAMPO_CONSTRASENA, editTextConstrasena.getText().toString());
                 if (!dbManager.existeUsuario(credenciales)) {
                     textViewIncorrectPasswordUser.setVisibility(View.VISIBLE);
                     break;

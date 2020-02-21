@@ -15,6 +15,11 @@
             android:icon="@drawable/ic_calculator_24dp"
             android:title="@string/menu_boleta_calculadora" />
 
+        <item
+            android:id="@+id/nav_rcof"
+            android:icon="@drawable/ic_clipboard_24dp"
+            android:title="@string/rcof" />
+
     </group>
 
     <group

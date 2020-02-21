@@ -17,6 +17,12 @@
         android:label="@string/menu_boleta_calculadora"
         android:layout="@layout/fragment_boleta_calculadora"/>
 
+    <fragment
+        android:id="@+id/nav_rcof"
+        android:name="com.micropos.boletaelectronica.app.fragments.FragmentRCOF"
+        android:label="@string/rcof"
+        android:layout="@layout/fragment_rcof"/>
+
     <activity
         android:id="@+id/nav_conf"
         android:name="com.micropos.boletaelectronica.app.ActivityConfiguraciones"

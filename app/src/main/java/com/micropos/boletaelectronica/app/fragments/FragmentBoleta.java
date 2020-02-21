@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 
 import com.micropos.boletaelectronica.R;
 import com.micropos.boletaelectronica.app.ActivityListaDispositivos;
+import com.micropos.boletaelectronica.app.Utilidades;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -63,7 +64,7 @@ public class FragmentBoleta extends Fragment implements View.OnClickListener {
         btnImprimir = root.findViewById(R.id.btn_imprimir);
         btnImprimir.setOnClickListener(this);
         btnImprimir.setEnabled(false);
-        btnImprimir.setAlpha(0.25f);
+        btnImprimir.setAlpha(Utilidades.TRANSPARENCIA_25);
 
         imgBtnBorrar = root.findViewById(R.id.btn_borrar);
         imgBtnBorrar.setOnClickListener(this);
@@ -96,7 +97,7 @@ public class FragmentBoleta extends Fragment implements View.OnClickListener {
 
         if (HPRTPrinterHelper.IsOpened()) {
             btnImprimir.setEnabled(true);
-            btnImprimir.setAlpha(1);
+            btnImprimir.setAlpha(Utilidades.NO_TRANSPARENCIA);
             tvEstadoConexion.setText(getResources().getString(R.string.conectado));
             tvEstadoConexion.setTextColor(getResources().getColor(R.color.colorGreen));
         }
@@ -264,7 +265,7 @@ public class FragmentBoleta extends Fragment implements View.OnClickListener {
                         tvEstadoConexion.setText(R.string.conectado);
                         tvEstadoConexion.setTextColor(getResources().getColor(R.color.colorGreen));
                         btnImprimir.setEnabled(true);
-                        btnImprimir.setAlpha(1);
+                        btnImprimir.setAlpha(Utilidades.NO_TRANSPARENCIA);
                         break;
                     }
             }

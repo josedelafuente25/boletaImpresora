@@ -16,37 +16,48 @@ public class DBManager extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL(Utilidades.CREAR_TABLA_USUARIOS);
+        sqLiteDatabase.execSQL(UtilidadesDB.CREAR_TABLA_USUARIOS);
+        sqLiteDatabase.execSQL(UtilidadesDB.CREAR_TABLA_ELECTRONICA_EMISOR);
+        sqLiteDatabase.execSQL(UtilidadesDB.CREAR_TABLA_ELECTRONICA_BOLETA);
+        sqLiteDatabase.execSQL(UtilidadesDB.CREAR_TABLA_ELECTRONICA_CAF);
 
     }
 
-    public void registrarUsuario(ContentValues values) {
+    public void insertarRegistro(String nameTable, ContentValues values) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.insert(Utilidades.NOMBRE_TABLA_USUARIOS, null, values);
+        db.insert(nameTable, null, values);
         db.close();
-        Log.d("Boton registrarse", "Registrado");
     }
 
-    public boolean existeUsuario(ContentValues values) {
+    public void consultarRegistro(String nombreTabla, String campo) {
         SQLiteDatabase db = this.getReadableDatabase();
-        String[] datoAConsultar = {values.get(Utilidades.CAMPO_NOMBRE).toString()};
-        String[] camposAObtener = {Utilidades.CAMPO_CONSTRASENA};
-        Cursor cursor = db.query(Utilidades.NOMBRE_TABLA_USUARIOS, camposAObtener, Utilidades.CAMPO_NOMBRE + "=?", datoAConsultar, null, null, null);
-        cursor.moveToFirst();
-        if (cursor.getCount()==0){
-            cursor.close();
-            return false;
+
+        Cursor cursor = db.rawQuery(
+                "SELECT * FROM " + nombreTabla
+                , null);
+
+        if (cursor.moveToFirst()) {
+            int count = 0;
+            while (!cursor.isAfterLast()) {
+                String str = cursor.getString(cursor.getColumnIndex(campo));
+                count++;
+                Log.i("LOG", campo + " n° " + count + ": " + str);
+                cursor.moveToNext();
+            }
         }
-        if (cursor.getString(0).equals(values.get(Utilidades.CAMPO_CONSTRASENA))) {
-            cursor.close();
-            return true;
-        }
-        cursor.close();
-        return false;
+
+        db.close();
 
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
+
+        if (oldVersion != newVersion) {
+            sqLiteDatabase.execSQL("DELETE FROM " + UtilidadesDB.NOMBRE_TABLA_ELECTRONICA_EMISOR);
+            sqLiteDatabase.execSQL("DELETE FROM " + UtilidadesDB.NOMBRE_TABLA_ELECTRONICA_BOLETA);
+            sqLiteDatabase.execSQL("DELETE FROM " + UtilidadesDB.NOMBRE_TABLA_ELECTRONICA_CAF);
+        }
+
     }
 }

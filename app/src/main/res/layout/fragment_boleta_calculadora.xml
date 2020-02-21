@@ -179,6 +179,12 @@
                 android:src="@drawable/ic_cancel_50dp"
                 android:text="" />
 
+            <Button
+                android:id="@+id/btn_igual"
+                style="@style/OperatorButton"
+                android:layout_weight="1"
+                android:text="=" />
+
         </TableRow>
     </TableLayout>
 

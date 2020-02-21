@@ -1,6 +1,18 @@
 <resources>
     <string name="app_name">Boleta Electronica</string>
 
+    <!--fragment_rcof-->
+    <string name="total_general">Total General:</string>
+    <string name="resumen">Resumen</string>
+    <string name="numero_folios_ocupados">Numero de Folios Ocupados:</string>
+    <string name="hasta">Hasta</string>
+    <string name="desde">Desde</string>
+    <string name="total_iva">Total I.V.A:</string>
+    <string name="total_neto">Total Neto:</string>
+    <string name="fecha">Fecha:</string>
+    <string name="buscar">Buscar</string>
+    <string name="rcof">RCOF</string>
+
     <string name="borrar">BORRAR</string>
     <string name="imprimir">IMPRIMIR</string>
     <string name="total">Total:</string>
@@ -11,6 +23,7 @@
     <string name="conectado">Conectado</string>
     <string name="desconectado">Desconectado</string>
 
+    <!--ActivityListaDispositivos-->
     <string name="conectando">Conectando...</string>
     <string name="escanear">Escanear</string>
     <string name="detener">Detener</string>
@@ -32,6 +45,7 @@
     <string name="menu_boleta">Boleta</string>
     <string name="menu_configuraciones">Configuraciones</string>
 
+    <!--Login-->
     <string name="ingresar">Ingresar</string>
     <string name="registrarse">Registrarse</string>
     <string name="usuario">Usuario</string>

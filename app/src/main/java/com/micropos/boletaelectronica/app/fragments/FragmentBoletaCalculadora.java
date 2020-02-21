@@ -1,7 +1,8 @@
 package com.micropos.boletaelectronica.app.fragments;
 
-import android.bluetooth.BluetoothAdapter;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,11 +17,20 @@ import androidx.fragment.app.Fragment;
 
 import com.micropos.boletaelectronica.R;
 import com.micropos.boletaelectronica.app.ActivityListaDispositivos;
+import com.micropos.boletaelectronica.app.Utilidades;
+import com.micropos.boletaelectronica.db.DBManager;
+import com.micropos.boletaelectronica.db.UtilidadesDB;
+
+import org.json.JSONException;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 
 import HPRTAndroidSDK.HPRTPrinterHelper;
+
+import static com.micropos.boletaelectronica.db.UtilidadesDB.NOMBRE_DB;
+import static com.micropos.boletaelectronica.db.UtilidadesDB.NOMBRE_TABLA_ELECTRONICA_EMISOR;
 
 public class FragmentBoletaCalculadora extends Fragment implements View.OnClickListener {
 
@@ -47,6 +57,7 @@ public class FragmentBoletaCalculadora extends Fragment implements View.OnClickL
     private Button btnLimpiar;
     private Button btnAgregar;
     private Button btnMultiplicar;
+    private Button btnIgual;
     private ImageButton imgBtnBorrar;
     private TextView tvEstadoConexion;
 
@@ -55,6 +66,9 @@ public class FragmentBoletaCalculadora extends Fragment implements View.OnClickL
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_boleta_calculadora, container, false);
+
+        btnIgual = root.findViewById(R.id.btn_igual);
+        btnIgual.setOnClickListener(this);
 
         btnMultiplicar = root.findViewById(R.id.btn_multiplicar);
         btnMultiplicar.setOnClickListener(this);
@@ -81,10 +95,13 @@ public class FragmentBoletaCalculadora extends Fragment implements View.OnClickL
         tvEstadoConexion.setText(getResources().getString(R.string.desconectado));
         tvEstadoConexion.setTextColor(getResources().getColor(R.color.colorRed));
 
+        btnIgual.setEnabled(false);
+        btnIgual.setAlpha(Utilidades.TRANSPARENCIA_25);
+
         btnImprimir = root.findViewById(R.id.btn_imprimir);
         btnImprimir.setOnClickListener(this);
-        btnImprimir.setEnabled(false);
-        btnImprimir.setAlpha(0.25f);
+        //btnImprimir.setEnabled(false);
+        //btnImprimir.setAlpha(UtilidadesDB.TRANSPARENCIA_25);
 
         imgBtnBorrar = root.findViewById(R.id.btn_borrar);
         imgBtnBorrar.setOnClickListener(this);
@@ -112,7 +129,7 @@ public class FragmentBoletaCalculadora extends Fragment implements View.OnClickL
 
         if (HPRTPrinterHelper.IsOpened()) {
             btnImprimir.setEnabled(true);
-            btnImprimir.setAlpha(1);
+            btnImprimir.setAlpha(Utilidades.NO_TRANSPARENCIA);
             tvEstadoConexion.setText(getResources().getString(R.string.conectado));
             tvEstadoConexion.setTextColor(getResources().getColor(R.color.colorGreen));
         }
@@ -137,10 +154,10 @@ public class FragmentBoletaCalculadora extends Fragment implements View.OnClickL
 
                     if (valor.contains("*")) {
                         btnMultiplicar.setEnabled(false);
-                        btnMultiplicar.setAlpha(0.25f);
+                        btnMultiplicar.setAlpha(Utilidades.TRANSPARENCIA_25);
                     } else {
                         btnMultiplicar.setEnabled(true);
-                        btnMultiplicar.setAlpha(1);
+                        btnMultiplicar.setAlpha(Utilidades.NO_TRANSPARENCIA);
                     }
 
                     if (valor.length() == 0)
@@ -155,8 +172,69 @@ public class FragmentBoletaCalculadora extends Fragment implements View.OnClickL
 
                 try {
                     if (!valorTotal.equals("0")) {
-                        imprimir();
+
+                        //Funcion comentada para hacer pruebas
+                        //imprimir();
+
                         //TODO: Solicitar otro folio
+
+                        //TODO: Guardar los datos en DB
+
+                        DBManager db = new DBManager(
+                                getActivity(), NOMBRE_DB, null, UtilidadesDB.DB_VERSION);
+
+                        Random r = new Random();
+                        String rut = r.nextInt(99) + "." + r.nextInt(999) + "." + r.nextInt(999) + "-9";
+                        String giro = "VENTA AL POR MENOR";
+                        String razonSocial = "COMERCIAL AGRICOLA MARTINEZ LTDA";
+                        String direccion = "ERCILLA 451";
+                        String fono = "452651519";
+                        String correo = "correo@gmail.cl";
+                        String nombreCertificado = "test_certificado";
+                        String ciudadSucursal = "TEMUCO";
+
+
+                        ContentValues registro = new ContentValues();
+                        registro.put(UtilidadesDB.CAMPO_RUT, rut);
+                        registro.put(UtilidadesDB.CAMPO_GIRO, giro);
+                        registro.put(UtilidadesDB.CAMPO_RAZON_SOCIAL, razonSocial);
+                        registro.put(UtilidadesDB.CAMPO_DIRECCION, direccion);
+                        registro.put(UtilidadesDB.CAMPO_FONO, fono);
+                        registro.put(UtilidadesDB.CAMPO_CORREO, correo);
+                        registro.put(UtilidadesDB.CAMPO_NOMBRE_CERTIFICADO, nombreCertificado);
+                        registro.put(UtilidadesDB.CAMPO_CIUDAD_SUCURSAL, ciudadSucursal);
+
+                        db.insertarRegistro(NOMBRE_TABLA_ELECTRONICA_EMISOR, registro);
+                        db.consultarRegistro(NOMBRE_TABLA_ELECTRONICA_EMISOR, UtilidadesDB.CAMPO_RUT);
+
+                        registro = new ContentValues();
+                        registro.put(UtilidadesDB.CAMPO_FOLIO, r.nextInt(99999999));
+                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        Date date = new Date();
+                        registro.put(UtilidadesDB.CAMPO_FECHA_EMISION, format.format(date));
+                        registro.put(UtilidadesDB.CAMPO_DIA, 22);
+                        SimpleDateFormat mes=new SimpleDateFormat("MM");
+                        registro.put(UtilidadesDB.CAMPO_MES, Utilidades.convertirMesAPalabra(mes.format(date)));
+                        registro.put(UtilidadesDB.CAMPO_ANO, 2020);
+                        registro.put(UtilidadesDB.CAMPO_IVA, r.nextInt(999999999));
+                        registro.put(UtilidadesDB.CAMPO_NETO, r.nextInt(999999999));
+                        registro.put(UtilidadesDB.CAMPO_TOTAL, r.nextInt(999999999));
+                        registro.put(UtilidadesDB.CAMPO_ENVIADO, 0);
+
+                        db.insertarRegistro(UtilidadesDB.NOMBRE_TABLA_ELECTRONICA_BOLETA, registro);
+                        db.consultarRegistro(UtilidadesDB.NOMBRE_TABLA_ELECTRONICA_BOLETA, UtilidadesDB.CAMPO_MES);
+
+                        registro = new ContentValues();
+                        registro.put(UtilidadesDB.CAMPO_CAF, "<xml>CAF</>");
+                        registro.put(UtilidadesDB.CAMPO_DESDE, r.nextInt(999999999));
+                        registro.put(UtilidadesDB.CAMPO_HASTA, r.nextInt(999999999));
+                        registro.put(UtilidadesDB.CAMPO_FECHA_ULTIMA_PETICION, format.format(date));
+                        registro.put(UtilidadesDB.CAMPO_CANTIDAD, r.nextInt(999999999));
+
+                        db.insertarRegistro(UtilidadesDB.NOMBRE_TABLA_ELECTRONICA_CAF, registro);
+                        db.consultarRegistro(UtilidadesDB.NOMBRE_TABLA_ELECTRONICA_CAF, UtilidadesDB.CAMPO_DESDE);
+
+                        db.close();
 
                         valor = "";
                         valorTotal = "0";
@@ -164,15 +242,19 @@ public class FragmentBoletaCalculadora extends Fragment implements View.OnClickL
                         tvValor.setText("$0");
                         tvValorTotal.setText("$0");
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                } catch (SQLiteException e) {
+                    Log.i(TAG, e.getMessage());
                 }
                 break;
 
             case R.id.btn_limpiar:
 
+
+                btnIgual.setEnabled(false);
+                btnIgual.setAlpha(Utilidades.TRANSPARENCIA_25);
+
                 btnMultiplicar.setEnabled(true);
-                btnMultiplicar.setAlpha(1);
+                btnMultiplicar.setAlpha(Utilidades.NO_TRANSPARENCIA);
 
                 valor = "";
                 valorTotal = "0";
@@ -198,16 +280,23 @@ public class FragmentBoletaCalculadora extends Fragment implements View.OnClickL
                     tvValor.setText("$0");
 
                     btnMultiplicar.setEnabled(true);
-                    btnMultiplicar.setAlpha(1);
+                    btnMultiplicar.setAlpha(Utilidades.NO_TRANSPARENCIA);
                 }
                 break;
 
             case R.id.btn_multiplicar:
+
                 if (valor.length() > 0) {
                     valor += "*";
                     tvValor.setText(formatearValor(valor));
                     btnMultiplicar.setEnabled(false);
-                    btnMultiplicar.setAlpha(0.25f);
+                    btnMultiplicar.setAlpha(Utilidades.TRANSPARENCIA_25);
+                }
+                break;
+
+            case R.id.btn_igual:
+                if (valor.length() > 0) {
+                    //TODO: Trabajar en esto el fin de semana
                 }
                 break;
         }
@@ -274,8 +363,12 @@ public class FragmentBoletaCalculadora extends Fragment implements View.OnClickL
 
         String[] arrStr = str.split("\\*");
         if (arrStr.length == 1) {
+            btnIgual.setEnabled(false);
+            btnIgual.setAlpha(Utilidades.TRANSPARENCIA_25);
             return formatearValor(arrStr[0]) + "*";
         } else if (arrStr.length == 2) {
+            btnIgual.setEnabled(true);
+            btnIgual.setAlpha(Utilidades.NO_TRANSPARENCIA);
             return formatearValor(arrStr[0]) + "*"
                     + formatearValor(arrStr[1]).replace("$", "");
         }
@@ -347,7 +440,7 @@ public class FragmentBoletaCalculadora extends Fragment implements View.OnClickL
                         tvEstadoConexion.setText(R.string.conectado);
                         tvEstadoConexion.setTextColor(getResources().getColor(R.color.colorGreen));
                         btnImprimir.setEnabled(true);
-                        btnImprimir.setAlpha(1);
+                        btnImprimir.setAlpha(Utilidades.NO_TRANSPARENCIA);
                         break;
                     }
             }
