@@ -1,5 +1,6 @@
 package com.micropos.boletaelectronica.app.fragments;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,11 +17,17 @@ import androidx.fragment.app.Fragment;
 import com.micropos.boletaelectronica.R;
 import com.micropos.boletaelectronica.app.ActivityListaDispositivos;
 import com.micropos.boletaelectronica.app.Utilidades;
+import com.micropos.boletaelectronica.db.DBManager;
+import com.micropos.boletaelectronica.db.UtilidadesDB;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 
 import HPRTAndroidSDK.HPRTPrinterHelper;
+
+import static com.micropos.boletaelectronica.db.UtilidadesDB.NOMBRE_DB;
+import static com.micropos.boletaelectronica.db.UtilidadesDB.NOMBRE_TABLA_ELECTRONICA_EMISOR;
 
 public class FragmentBoleta extends Fragment implements View.OnClickListener {
 
@@ -63,8 +70,8 @@ public class FragmentBoleta extends Fragment implements View.OnClickListener {
 
         btnImprimir = root.findViewById(R.id.btn_imprimir);
         btnImprimir.setOnClickListener(this);
-        btnImprimir.setEnabled(false);
-        btnImprimir.setAlpha(Utilidades.TRANSPARENCIA_25);
+        //btnImprimir.setEnabled(false);
+        //nImprimir.setAlpha(Utilidades.TRANSPARENCIA_25);
 
         imgBtnBorrar = root.findViewById(R.id.btn_borrar);
         imgBtnBorrar.setOnClickListener(this);
@@ -105,13 +112,6 @@ public class FragmentBoleta extends Fragment implements View.OnClickListener {
         return root;
     }
 
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        //TODO: Preguntar aquí si el modo calculadora está activado
-    }
-
     @Override
     public void onClick(View v) {
 
@@ -137,8 +137,74 @@ public class FragmentBoleta extends Fragment implements View.OnClickListener {
         if (v.getId() == R.id.btn_imprimir) {
 
             if (valorTotal.length() > 0) {
+
                 try {
-                    imprimir();
+
+                    //Funcioón comentada para hacer pruebas
+                    //imprimir();
+
+                    DBManager db = new DBManager(
+                            getActivity(), NOMBRE_DB, null, UtilidadesDB.DB_VERSION);
+
+                    Random r = new Random();
+                    String rut = r.nextInt(99) + "." + r.nextInt(999) + "." + r.nextInt(999) + "-9";
+                    String giro = "VENTA AL POR MENOR";
+                    String razonSocial = "COMERCIAL AGRICOLA MARTINEZ LTDA";
+                    String direccion = "ERCILLA 451";
+                    String fono = "452651519";
+                    String correo = "correo@gmail.cl";
+                    String nombreCertificado = "test_certificado";
+                    String ciudadSucursal = "TEMUCO";
+
+                    ContentValues registro = new ContentValues();
+                    registro.put(UtilidadesDB.CAMPO_RUT, rut);
+                    registro.put(UtilidadesDB.CAMPO_GIRO, giro);
+                    registro.put(UtilidadesDB.CAMPO_RAZON_SOCIAL, razonSocial);
+                    registro.put(UtilidadesDB.CAMPO_DIRECCION, direccion);
+                    registro.put(UtilidadesDB.CAMPO_FONO, fono);
+                    registro.put(UtilidadesDB.CAMPO_CORREO, correo);
+                    registro.put(UtilidadesDB.CAMPO_NOMBRE_CERTIFICADO, nombreCertificado);
+                    registro.put(UtilidadesDB.CAMPO_CIUDAD_SUCURSAL, ciudadSucursal);
+
+                    db.insertarRegistro(NOMBRE_TABLA_ELECTRONICA_EMISOR, registro);
+
+                    registro = new ContentValues();
+                    registro.put(UtilidadesDB.CAMPO_FOLIO, r.nextInt(99999999));
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    Date date = new Date();
+                    registro.put(UtilidadesDB.CAMPO_FECHA_EMISION, dateFormat.format(date));
+                    dateFormat.applyPattern("dd");
+                    registro.put(UtilidadesDB.CAMPO_DIA, dateFormat.format(date));
+                    dateFormat.applyPattern("MM");
+                    registro.put(
+                            UtilidadesDB.CAMPO_MES
+                            , Utilidades.convertirMesAPalabra(dateFormat.format(date)));
+                    dateFormat.applyPattern("yyyy");
+                    registro.put(UtilidadesDB.CAMPO_ANO, dateFormat.format(date));
+                    registro.put(UtilidadesDB.CAMPO_IVA, r.nextInt(999999999));
+                    registro.put(UtilidadesDB.CAMPO_NETO, r.nextInt(999999999));
+                    registro.put(UtilidadesDB.CAMPO_TOTAL, r.nextInt(999999999));
+                    registro.put(UtilidadesDB.CAMPO_ENVIADO, 0);
+
+                    db.insertarRegistro(UtilidadesDB.NOMBRE_TABLA_ELECTRONICA_BOLETA, registro);
+                    db.consultarRegistro(
+                            UtilidadesDB.NOMBRE_TABLA_ELECTRONICA_BOLETA, UtilidadesDB.CAMPO_NETO);
+                    db.consultarRegistro(
+                            UtilidadesDB.NOMBRE_TABLA_ELECTRONICA_BOLETA, UtilidadesDB.CAMPO_DIA);
+
+                    registro = new ContentValues();
+                    registro.put(UtilidadesDB.CAMPO_CAF, "<xml>CAF</>");
+                    registro.put(UtilidadesDB.CAMPO_DESDE, r.nextInt(999999999));
+                    registro.put(UtilidadesDB.CAMPO_HASTA, r.nextInt(999999999));
+                    dateFormat.applyPattern("yyyy-MM-dd HH:mm:ss");
+                    registro.put(UtilidadesDB.CAMPO_FECHA_ULTIMA_PETICION, dateFormat.format(date));
+                    //TODO: Solicitar folio según la cantidad restante
+                    registro.put(UtilidadesDB.CAMPO_CANTIDAD, r.nextInt(999999999));
+
+                    db.insertarRegistro(UtilidadesDB.NOMBRE_TABLA_ELECTRONICA_CAF, registro);
+
+                    db.close();
+
                     valorTotal = "";
                     tvValor.setText("$0");
                 } catch (Exception e) {

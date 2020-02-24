@@ -100,6 +100,7 @@ public class FragmentBoletaCalculadora extends Fragment implements View.OnClickL
 
         btnImprimir = root.findViewById(R.id.btn_imprimir);
         btnImprimir.setOnClickListener(this);
+        //TODO: No olvidar descomentar estas dos lineas
         //btnImprimir.setEnabled(false);
         //btnImprimir.setAlpha(UtilidadesDB.TRANSPARENCIA_25);
 
@@ -176,10 +177,6 @@ public class FragmentBoletaCalculadora extends Fragment implements View.OnClickL
                         //Funcion comentada para hacer pruebas
                         //imprimir();
 
-                        //TODO: Solicitar otro folio
-
-                        //TODO: Guardar los datos en DB
-
                         DBManager db = new DBManager(
                                 getActivity(), NOMBRE_DB, null, UtilidadesDB.DB_VERSION);
 
@@ -193,7 +190,6 @@ public class FragmentBoletaCalculadora extends Fragment implements View.OnClickL
                         String nombreCertificado = "test_certificado";
                         String ciudadSucursal = "TEMUCO";
 
-
                         ContentValues registro = new ContentValues();
                         registro.put(UtilidadesDB.CAMPO_RUT, rut);
                         registro.put(UtilidadesDB.CAMPO_GIRO, giro);
@@ -205,34 +201,36 @@ public class FragmentBoletaCalculadora extends Fragment implements View.OnClickL
                         registro.put(UtilidadesDB.CAMPO_CIUDAD_SUCURSAL, ciudadSucursal);
 
                         db.insertarRegistro(NOMBRE_TABLA_ELECTRONICA_EMISOR, registro);
-                        db.consultarRegistro(NOMBRE_TABLA_ELECTRONICA_EMISOR, UtilidadesDB.CAMPO_RUT);
 
                         registro = new ContentValues();
                         registro.put(UtilidadesDB.CAMPO_FOLIO, r.nextInt(99999999));
-                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date = new Date();
-                        registro.put(UtilidadesDB.CAMPO_FECHA_EMISION, format.format(date));
-                        registro.put(UtilidadesDB.CAMPO_DIA, 22);
-                        SimpleDateFormat mes=new SimpleDateFormat("MM");
-                        registro.put(UtilidadesDB.CAMPO_MES, Utilidades.convertirMesAPalabra(mes.format(date)));
-                        registro.put(UtilidadesDB.CAMPO_ANO, 2020);
+                        registro.put(UtilidadesDB.CAMPO_FECHA_EMISION, dateFormat.format(date));
+                        dateFormat.applyPattern("dd");
+                        registro.put(UtilidadesDB.CAMPO_DIA, dateFormat.format(date));
+                        dateFormat.applyPattern("MM");
+                        registro.put(UtilidadesDB.CAMPO_MES, Utilidades.convertirMesAPalabra(dateFormat.format(date)));
+                        dateFormat.applyPattern("yyyy");
+                        registro.put(UtilidadesDB.CAMPO_ANO, dateFormat.format(date));
                         registro.put(UtilidadesDB.CAMPO_IVA, r.nextInt(999999999));
                         registro.put(UtilidadesDB.CAMPO_NETO, r.nextInt(999999999));
                         registro.put(UtilidadesDB.CAMPO_TOTAL, r.nextInt(999999999));
                         registro.put(UtilidadesDB.CAMPO_ENVIADO, 0);
 
                         db.insertarRegistro(UtilidadesDB.NOMBRE_TABLA_ELECTRONICA_BOLETA, registro);
-                        db.consultarRegistro(UtilidadesDB.NOMBRE_TABLA_ELECTRONICA_BOLETA, UtilidadesDB.CAMPO_MES);
+                        db.consultarRegistro(UtilidadesDB.NOMBRE_TABLA_ELECTRONICA_BOLETA, UtilidadesDB.CAMPO_NETO);
+                        db.consultarRegistro(UtilidadesDB.NOMBRE_TABLA_ELECTRONICA_BOLETA, UtilidadesDB.CAMPO_DIA);
 
                         registro = new ContentValues();
                         registro.put(UtilidadesDB.CAMPO_CAF, "<xml>CAF</>");
                         registro.put(UtilidadesDB.CAMPO_DESDE, r.nextInt(999999999));
                         registro.put(UtilidadesDB.CAMPO_HASTA, r.nextInt(999999999));
-                        registro.put(UtilidadesDB.CAMPO_FECHA_ULTIMA_PETICION, format.format(date));
+                        dateFormat.applyPattern("yyyy-MM-dd HH:mm:ss");
+                        registro.put(UtilidadesDB.CAMPO_FECHA_ULTIMA_PETICION, dateFormat.format(date));
                         registro.put(UtilidadesDB.CAMPO_CANTIDAD, r.nextInt(999999999));
 
                         db.insertarRegistro(UtilidadesDB.NOMBRE_TABLA_ELECTRONICA_CAF, registro);
-                        db.consultarRegistro(UtilidadesDB.NOMBRE_TABLA_ELECTRONICA_CAF, UtilidadesDB.CAMPO_DESDE);
 
                         db.close();
 

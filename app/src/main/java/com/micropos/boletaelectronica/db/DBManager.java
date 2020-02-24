@@ -47,7 +47,19 @@ public class DBManager extends SQLiteOpenHelper {
         }
 
         db.close();
+    }
 
+    public String obtenerSuma(String nombreTabla, String campoASumar, String campoARecorrer, String fechaYYYYMMDD) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT SUM(" + campoASumar + ") AS Suma"
+                + " FROM " + nombreTabla
+                + " WHERE " + campoARecorrer
+                + " BETWEEN '" + fechaYYYYMMDD + " 00:00:00' AND '" + fechaYYYYMMDD + " 23:59:59'", null);
+        if (cursor.moveToFirst()) {
+            cursor.getString(0);
+            return cursor.getString(cursor.getColumnIndex("Suma"));
+        }
+        return null;
     }
 
     @Override

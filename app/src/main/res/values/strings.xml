@@ -2,9 +2,10 @@
     <string name="app_name">Boleta Electronica</string>
 
     <!--fragment_rcof-->
+    <string name="sin_registros_encontrados">Sin Registros Encontrados</string>
     <string name="total_general">Total General:</string>
     <string name="resumen">Resumen</string>
-    <string name="numero_folios_ocupados">Numero de Folios Ocupados:</string>
+    <string name="folios_ocupados">Folios Ocupados:</string>
     <string name="hasta">Hasta</string>
     <string name="desde">Desde</string>
     <string name="total_iva">Total I.V.A:</string>
