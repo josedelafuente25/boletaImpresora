@@ -31,7 +31,6 @@ public class FragmentRCOF extends Fragment implements View.OnClickListener {
     private TextView tv_folios_ocupados;
     private TextView tv_total_general;
     private Button btnBuscar;
-    private String fecha;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_rcof, container, false);
@@ -92,23 +91,30 @@ public class FragmentRCOF extends Fragment implements View.OnClickListener {
 
             case R.id.btn_buscar:
 
-                fecha=tvFecha.getText().toString();
+                String fecha = tvFecha.getText().toString();
 
                 DBManager db = new DBManager(getActivity()
                         , UtilidadesDB.NOMBRE_DB, null, UtilidadesDB.DB_VERSION);
 
                 String totalNeto = db.obtenerSuma(UtilidadesDB.NOMBRE_TABLA_ELECTRONICA_BOLETA
                         , UtilidadesDB.CAMPO_NETO, UtilidadesDB.CAMPO_FECHA_EMISION, fecha);
-                //TODO: Preguntar si se podría dar el caso en que se encuentre solo el total iva
+                //TODO: Preguntar al Luis
+                // si se podría dar el caso en que se encuentre solo el total iva
                 // y el resto sea null. Si es que en algún momento se daría esa situación
                 if (totalNeto != null) {
                     tv_total_neto.setText(totalNeto);
-                    String totalIva=db.obtenerSuma(
+                    String totalIva = db.obtenerSuma(
                             UtilidadesDB.NOMBRE_TABLA_ELECTRONICA_BOLETA
-                            ,UtilidadesDB.CAMPO_IVA
-                            ,UtilidadesDB.CAMPO_FECHA_EMISION,fecha);
+                            , UtilidadesDB.CAMPO_IVA
+                            , UtilidadesDB.CAMPO_FECHA_EMISION
+                            , fecha);
                     tv_total_iva.setText(totalIva);
-
+                    String totalGeneral = db.obtenerSuma(
+                            UtilidadesDB.NOMBRE_TABLA_ELECTRONICA_BOLETA
+                            , UtilidadesDB.CAMPO_TOTAL
+                            , UtilidadesDB.CAMPO_FECHA_EMISION
+                            , fecha);
+                    tv_total_general.setText(totalGeneral);
 
                 } else {
                     Toast.makeText(getActivity()

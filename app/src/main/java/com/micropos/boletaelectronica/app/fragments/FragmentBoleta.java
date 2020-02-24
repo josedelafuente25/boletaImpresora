@@ -181,9 +181,11 @@ public class FragmentBoleta extends Fragment implements View.OnClickListener {
                             , Utilidades.convertirMesAPalabra(dateFormat.format(date)));
                     dateFormat.applyPattern("yyyy");
                     registro.put(UtilidadesDB.CAMPO_ANO, dateFormat.format(date));
-                    registro.put(UtilidadesDB.CAMPO_IVA, r.nextInt(999999999));
-                    registro.put(UtilidadesDB.CAMPO_NETO, r.nextInt(999999999));
-                    registro.put(UtilidadesDB.CAMPO_TOTAL, r.nextInt(999999999));
+                    double neto = Long.parseLong(valorTotal);
+                    neto /=1.19;
+                    registro.put(UtilidadesDB.CAMPO_IVA, Math.round(neto * 0.19));
+                    registro.put(UtilidadesDB.CAMPO_NETO, Math.round(neto));
+                    registro.put(UtilidadesDB.CAMPO_TOTAL, valorTotal);
                     registro.put(UtilidadesDB.CAMPO_ENVIADO, 0);
 
                     db.insertarRegistro(UtilidadesDB.NOMBRE_TABLA_ELECTRONICA_BOLETA, registro);
