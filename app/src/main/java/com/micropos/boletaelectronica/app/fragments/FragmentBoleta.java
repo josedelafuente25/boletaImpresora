@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -52,15 +53,20 @@ public class FragmentBoleta extends Fragment implements View.OnClickListener {
     private TextView tvEstadoConexion;
     private TextView tvFolio;
 
+    private DBManager db;
+
     private String valorTotal;
+    private String folio;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_boleta, container, false);
 
+        db = new DBManager(
+                getActivity(), NOMBRE_DB, null, UtilidadesDB.DB_VERSION);
+
         tvFolio = root.findViewById(R.id.tv_folio);
-        tvFolio.setText("#1234");
 
         btnConectar = root.findViewById(R.id.btn_conectar);
         btnConectar.setOnClickListener(this);
@@ -113,6 +119,19 @@ public class FragmentBoleta extends Fragment implements View.OnClickListener {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        folio = db.obtenerFolio();
+        if (folio == null) {
+            tvFolio.setText(getResources().getString(R.string.sin_folios_disponibles));
+            tvFolio.setTextColor(getResources().getColor(R.color.colorRed));
+        } else {
+            tvFolio.setText(folio);
+            tvFolio.setTextColor(getResources().getColor(R.color.colorBlack));
+        }
+    }
+
+    @Override
     public void onClick(View v) {
 
         if (v.getId() == R.id.btn_conectar) {
@@ -140,75 +159,95 @@ public class FragmentBoleta extends Fragment implements View.OnClickListener {
 
                 try {
 
-                    //Funcioón comentada para hacer pruebas
+                    //Función comentada para hacer pruebas
                     //imprimir();
 
-                    DBManager db = new DBManager(
-                            getActivity(), NOMBRE_DB, null, UtilidadesDB.DB_VERSION);
+                    if (folio != null) {
 
-                    Random r = new Random();
-                    String rut = r.nextInt(99) + "." + r.nextInt(999) + "." + r.nextInt(999) + "-9";
-                    String giro = "VENTA AL POR MENOR";
-                    String razonSocial = "COMERCIAL AGRICOLA MARTINEZ LTDA";
-                    String direccion = "ERCILLA 451";
-                    String fono = "452651519";
-                    String correo = "correo@gmail.cl";
-                    String nombreCertificado = "test_certificado";
-                    String ciudadSucursal = "TEMUCO";
+                        Random r = new Random();
+                        String rut = r.nextInt(99) + "." + r.nextInt(999) + "." + r.nextInt(999) + "-9";
+                        String giro = "VENTA AL POR MENOR";
+                        String razonSocial = "COMERCIAL AGRICOLA MARTINEZ LTDA";
+                        String direccion = "ERCILLA 451";
+                        String fono = "452651519";
+                        String correo = "correo@gmail.cl";
+                        String nombreCertificado = "test_certificado";
+                        String ciudadSucursal = "TEMUCO";
 
-                    ContentValues registro = new ContentValues();
-                    registro.put(UtilidadesDB.CAMPO_RUT, rut);
-                    registro.put(UtilidadesDB.CAMPO_GIRO, giro);
-                    registro.put(UtilidadesDB.CAMPO_RAZON_SOCIAL, razonSocial);
-                    registro.put(UtilidadesDB.CAMPO_DIRECCION, direccion);
-                    registro.put(UtilidadesDB.CAMPO_FONO, fono);
-                    registro.put(UtilidadesDB.CAMPO_CORREO, correo);
-                    registro.put(UtilidadesDB.CAMPO_NOMBRE_CERTIFICADO, nombreCertificado);
-                    registro.put(UtilidadesDB.CAMPO_CIUDAD_SUCURSAL, ciudadSucursal);
+                        ContentValues registro = new ContentValues();
+                        registro.put(UtilidadesDB.CAMPO_RUT, rut);
+                        registro.put(UtilidadesDB.CAMPO_GIRO, giro);
+                        registro.put(UtilidadesDB.CAMPO_RAZON_SOCIAL, razonSocial);
+                        registro.put(UtilidadesDB.CAMPO_DIRECCION, direccion);
+                        registro.put(UtilidadesDB.CAMPO_FONO, fono);
+                        registro.put(UtilidadesDB.CAMPO_CORREO, correo);
+                        registro.put(UtilidadesDB.CAMPO_NOMBRE_CERTIFICADO, nombreCertificado);
+                        registro.put(UtilidadesDB.CAMPO_CIUDAD_SUCURSAL, ciudadSucursal);
 
-                    db.insertarRegistro(NOMBRE_TABLA_ELECTRONICA_EMISOR, registro);
+                        db.insertarRegistro(NOMBRE_TABLA_ELECTRONICA_EMISOR, registro);
 
-                    registro = new ContentValues();
-                    registro.put(UtilidadesDB.CAMPO_FOLIO, r.nextInt(99999999));
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    Date date = new Date();
-                    registro.put(UtilidadesDB.CAMPO_FECHA_EMISION, dateFormat.format(date));
-                    dateFormat.applyPattern("dd");
-                    registro.put(UtilidadesDB.CAMPO_DIA, dateFormat.format(date));
-                    dateFormat.applyPattern("MM");
-                    registro.put(
-                            UtilidadesDB.CAMPO_MES
-                            , Utilidades.convertirMesAPalabra(dateFormat.format(date)));
-                    dateFormat.applyPattern("yyyy");
-                    registro.put(UtilidadesDB.CAMPO_ANO, dateFormat.format(date));
-                    double neto = Long.parseLong(valorTotal);
-                    neto /=1.19;
-                    registro.put(UtilidadesDB.CAMPO_IVA, Math.round(neto * 0.19));
-                    registro.put(UtilidadesDB.CAMPO_NETO, Math.round(neto));
-                    registro.put(UtilidadesDB.CAMPO_TOTAL, valorTotal);
-                    registro.put(UtilidadesDB.CAMPO_ENVIADO, 0);
+                        registro = new ContentValues();
+                        registro.put(UtilidadesDB.CAMPO_FOLIO, r.nextInt(99999999));
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        Date date = new Date();
+                        registro.put(UtilidadesDB.CAMPO_FECHA_EMISION, dateFormat.format(date));
+                        dateFormat.applyPattern("dd");
+                        registro.put(UtilidadesDB.CAMPO_DIA, dateFormat.format(date));
+                        dateFormat.applyPattern("MM");
+                        registro.put(
+                                UtilidadesDB.CAMPO_MES
+                                , Utilidades.convertirMesAPalabra(dateFormat.format(date)));
+                        dateFormat.applyPattern("yyyy");
+                        registro.put(UtilidadesDB.CAMPO_ANO, dateFormat.format(date));
+                        double neto = Long.parseLong(valorTotal);
+                        neto /= 1.19;
+                        registro.put(UtilidadesDB.CAMPO_IVA, Math.round(neto * 0.19));
+                        registro.put(UtilidadesDB.CAMPO_NETO, Math.round(neto));
+                        registro.put(UtilidadesDB.CAMPO_TOTAL, valorTotal);
+                        registro.put(UtilidadesDB.CAMPO_ENVIADO, 0);
 
-                    db.insertarRegistro(UtilidadesDB.NOMBRE_TABLA_ELECTRONICA_BOLETA, registro);
-                    db.consultarRegistro(
-                            UtilidadesDB.NOMBRE_TABLA_ELECTRONICA_BOLETA, UtilidadesDB.CAMPO_NETO);
-                    db.consultarRegistro(
-                            UtilidadesDB.NOMBRE_TABLA_ELECTRONICA_BOLETA, UtilidadesDB.CAMPO_DIA);
+                        db.insertarRegistro(UtilidadesDB.NOMBRE_TABLA_ELECTRONICA_BOLETA, registro);
 
-                    registro = new ContentValues();
-                    registro.put(UtilidadesDB.CAMPO_CAF, "<xml>CAF</>");
-                    registro.put(UtilidadesDB.CAMPO_DESDE, r.nextInt(999999999));
-                    registro.put(UtilidadesDB.CAMPO_HASTA, r.nextInt(999999999));
-                    dateFormat.applyPattern("yyyy-MM-dd HH:mm:ss");
-                    registro.put(UtilidadesDB.CAMPO_FECHA_ULTIMA_PETICION, dateFormat.format(date));
-                    //TODO: Solicitar folio según la cantidad restante
-                    registro.put(UtilidadesDB.CAMPO_CANTIDAD, r.nextInt(999999999));
+                        valorTotal = "";
+                        tvValor.setText("$0");
 
-                    db.insertarRegistro(UtilidadesDB.NOMBRE_TABLA_ELECTRONICA_CAF, registro);
+                        db.descontarFolio();
+                        folio = db.obtenerFolio();
+                        if (folio == null) {
+                            tvFolio.setText(getResources().getString(R.string.sin_folios_disponibles));
+                            tvFolio.setTextColor(getResources().getColor(R.color.colorRed));
+                        } else {
+                            //TODO:Continuar aquí
+                            tvFolio.setText(folio);
+                            tvFolio.setTextColor(getResources().getColor(R.color.colorBlack));
+                        }
 
+                    } else {
+
+                        Toast.makeText(getActivity(), "Sin folios disponibles", Toast.LENGTH_SHORT).show();
+                        ContentValues registro = new ContentValues();
+                        db.insertarRegistro(UtilidadesDB.NOMBRE_TABLA_ELECTRONICA_BOLETA, registro);
+
+                        registro = new ContentValues();
+                        registro.put(UtilidadesDB.CAMPO_CAF, "<xml>CAF</>");
+                        Random r = new Random();
+                        registro.put(UtilidadesDB.CAMPO_DESDE, r.nextInt(999999999));
+                        registro.put(UtilidadesDB.CAMPO_HASTA, r.nextInt(999999999));
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        Date date = new Date();
+                        registro.put(UtilidadesDB.CAMPO_FECHA_ULTIMA_PETICION, dateFormat.format(date));
+                        //Cantidad de Folios de prueba.
+                        registro.put(UtilidadesDB.CAMPO_CANTIDAD, 5);
+
+                        db.insertarRegistro(UtilidadesDB.NOMBRE_TABLA_ELECTRONICA_CAF, registro);
+
+                        folio = db.obtenerFolio();
+                        tvFolio.setText(folio);
+                        tvFolio.setTextColor(getResources().getColor(R.color.colorBlack));
+
+                    }
                     db.close();
 
-                    valorTotal = "";
-                    tvValor.setText("$0");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

@@ -21,8 +21,6 @@ import com.micropos.boletaelectronica.app.Utilidades;
 import com.micropos.boletaelectronica.db.DBManager;
 import com.micropos.boletaelectronica.db.UtilidadesDB;
 
-import org.json.JSONException;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
@@ -181,7 +179,7 @@ public class FragmentBoletaCalculadora extends Fragment implements View.OnClickL
                                 getActivity(), NOMBRE_DB, null, UtilidadesDB.DB_VERSION);
 
                         Random r = new Random();
-                        String rut = r.nextInt(99) + "." + r.nextInt(999) + "." + r.nextInt(999) + "-9";
+                        String rut = "12.345.678-9";
                         String giro = "VENTA AL POR MENOR";
                         String razonSocial = "COMERCIAL AGRICOLA MARTINEZ LTDA";
                         String direccion = "ERCILLA 451";
@@ -221,8 +219,6 @@ public class FragmentBoletaCalculadora extends Fragment implements View.OnClickL
                         registro.put(UtilidadesDB.CAMPO_ENVIADO, 0);
 
                         db.insertarRegistro(UtilidadesDB.NOMBRE_TABLA_ELECTRONICA_BOLETA, registro);
-                        db.consultarRegistro(UtilidadesDB.NOMBRE_TABLA_ELECTRONICA_BOLETA, UtilidadesDB.CAMPO_NETO);
-                        db.consultarRegistro(UtilidadesDB.NOMBRE_TABLA_ELECTRONICA_BOLETA, UtilidadesDB.CAMPO_DIA);
 
                         registro = new ContentValues();
                         registro.put(UtilidadesDB.CAMPO_CAF, "<xml>CAF</>");

@@ -14,6 +14,9 @@
     <string name="buscar">Buscar</string>
     <string name="rcof">RCOF</string>
 
+    <!--FragmentBoleta-->
+    <string name="numero_folio">Numero Folio:</string>
+    <string name="sin_folios_disponibles">Sin Folios Disponibles</string>
     <string name="borrar">BORRAR</string>
     <string name="imprimir">IMPRIMIR</string>
     <string name="total">Total:</string>

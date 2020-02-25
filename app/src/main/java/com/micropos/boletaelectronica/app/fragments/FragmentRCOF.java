@@ -1,6 +1,7 @@
 package com.micropos.boletaelectronica.app.fragments;
 
 import android.app.DatePickerDialog;
+import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,6 +24,8 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class FragmentRCOF extends Fragment implements View.OnClickListener {
+
+    private final String TAG = "FragmentRCOF";
 
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private TextView tvFecha;
@@ -93,38 +96,44 @@ public class FragmentRCOF extends Fragment implements View.OnClickListener {
 
                 String fecha = tvFecha.getText().toString();
 
-                DBManager db = new DBManager(getActivity()
-                        , UtilidadesDB.NOMBRE_DB, null, UtilidadesDB.DB_VERSION);
+                try {
+                    DBManager db = new DBManager(getActivity()
+                            , UtilidadesDB.NOMBRE_DB, null, UtilidadesDB.DB_VERSION);
 
-                String totalNeto = db.obtenerSuma(UtilidadesDB.NOMBRE_TABLA_ELECTRONICA_BOLETA
-                        , UtilidadesDB.CAMPO_NETO, UtilidadesDB.CAMPO_FECHA_EMISION, fecha);
-                //TODO: Preguntar al Luis
-                // si se podría dar el caso en que se encuentre solo el total iva
-                // y el resto sea null. Si es que en algún momento se daría esa situación
-                if (totalNeto != null) {
-                    tv_total_neto.setText(totalNeto);
-                    String totalIva = db.obtenerSuma(
-                            UtilidadesDB.NOMBRE_TABLA_ELECTRONICA_BOLETA
-                            , UtilidadesDB.CAMPO_IVA
-                            , UtilidadesDB.CAMPO_FECHA_EMISION
-                            , fecha);
-                    tv_total_iva.setText(totalIva);
-                    String totalGeneral = db.obtenerSuma(
-                            UtilidadesDB.NOMBRE_TABLA_ELECTRONICA_BOLETA
-                            , UtilidadesDB.CAMPO_TOTAL
-                            , UtilidadesDB.CAMPO_FECHA_EMISION
-                            , fecha);
-                    tv_total_general.setText(totalGeneral);
+                    String totalNeto = db.obtenerSuma(UtilidadesDB.NOMBRE_TABLA_ELECTRONICA_BOLETA
+                            , UtilidadesDB.CAMPO_NETO, UtilidadesDB.CAMPO_FECHA_EMISION, fecha);
+                    //TODO: Preguntar al Luis
+                    // si se podría dar el caso en que se encuentre solo el total iva
+                    // y el resto sea null. Si es que en algún momento se daría esa situación
+                    if (totalNeto != null) {
+                        tv_total_neto.setText(totalNeto);
+                        String totalIva = db.obtenerSuma(
+                                UtilidadesDB.NOMBRE_TABLA_ELECTRONICA_BOLETA
+                                , UtilidadesDB.CAMPO_IVA
+                                , UtilidadesDB.CAMPO_FECHA_EMISION
+                                , fecha);
+                        tv_total_iva.setText(totalIva);
+                        String totalGeneral = db.obtenerSuma(
+                                UtilidadesDB.NOMBRE_TABLA_ELECTRONICA_BOLETA
+                                , UtilidadesDB.CAMPO_TOTAL
+                                , UtilidadesDB.CAMPO_FECHA_EMISION
+                                , fecha);
+                        tv_total_general.setText(totalGeneral);
+                        String foliosOcupados = db.obtenerCantFoliosOcupados(fecha);
+                        tv_folios_ocupados.setText(foliosOcupados);
 
-                } else {
-                    Toast.makeText(getActivity()
-                            , getResources().getString(R.string.sin_registros_encontrados)
-                            , Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getActivity()
+                                , getResources().getString(R.string.sin_registros_encontrados)
+                                , Toast.LENGTH_SHORT).show();
+                    }
+
+                    db.close();
+                    break;
+                } catch (SQLiteException e) {
+                    Log.e(TAG, e.getMessage());
                 }
-                db.close();
                 break;
-
-
         }
     }
 }

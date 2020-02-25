@@ -2,7 +2,7 @@ package com.micropos.boletaelectronica.db;
 
 public class UtilidadesDB {
 
-    public static final int DB_VERSION=3;
+    public static final int DB_VERSION=1;
 
     public static final String NOMBRE_DB="db_boleta_electronica";
 
