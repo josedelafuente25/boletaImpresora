@@ -12,6 +12,8 @@ import com.micropos.boletaelectronica.R;
 
 import java.util.List;
 
+//Clase que sirve de comunicación entre la vista y los datos. Es utilizada para mostrar la lista
+// de dispositivos Bluetooth encontrados
 public class AdapterListaDispositivos extends RecyclerView.Adapter<AdapterListaDispositivos.ViewHolderLista> {
 
     private List<String> mDataSet;

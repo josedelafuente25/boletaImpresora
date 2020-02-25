@@ -26,6 +26,7 @@ import java.util.List;
 
 import HPRTAndroidSDK.HPRTPrinterHelper;
 
+//Activity que se encarga de listar los dispositivos Bluetooth encontrados
 public class ActivityListaDispositivos extends Activity implements AdapterListaDispositivos.OnClickTextViewListener {
 
     private RecyclerView rvDispDisponibles;
@@ -112,6 +113,7 @@ public class ActivityListaDispositivos extends Activity implements AdapterListaD
         registerReceiver(mReceptor, intent);
     }
 
+    //Buscar dispositivos Bluetooth cercanos
     public void doDiscovery() {
         if (mBluetoothAdapter.isDiscovering())
             mBluetoothAdapter.cancelDiscovery();
@@ -127,6 +129,7 @@ public class ActivityListaDispositivos extends Activity implements AdapterListaD
         }
     }
 
+    //Cancelar busqueda de dispositivos
     public void cancelDiscovering() {
         mBluetoothAdapter.cancelDiscovery();
     }
@@ -174,6 +177,7 @@ public class ActivityListaDispositivos extends Activity implements AdapterListaD
         }
     }
 
+    //Conectar el dispositivo seleccionado
     @Override
     public void onClickTextView(CharSequence tvText) {
 

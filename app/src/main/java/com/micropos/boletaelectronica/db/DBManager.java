@@ -29,7 +29,8 @@ public class DBManager extends SQLiteOpenHelper {
         db.close();
     }
 
-    //Obtener el ultimo registro
+    //Obtener el último registro
+    //Utilizado para hacer pruebas
     public void consultarRegistro(String nombreTabla, String campo) {
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -46,6 +47,8 @@ public class DBManager extends SQLiteOpenHelper {
         db.close();
     }
 
+    //Retorna la suma de un determinado campo
+    //Es utilizado para obtener el total iva, total neto y el total general.
     public String obtenerSuma(String nombreTabla, String campoASumar
             , String campoARecorrer, String fechaYYYYMMDD) {
 
@@ -63,6 +66,7 @@ public class DBManager extends SQLiteOpenHelper {
         return null;
     }
 
+    //Retorna la cantidad de folios que han sido ocupados según fecha
     public String obtenerCantFoliosOcupados(String fechaYYYYMMDD) {
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -81,16 +85,20 @@ public class DBManager extends SQLiteOpenHelper {
         return null;
     }
 
+    //Descuenta en una unidad la cantidad de folios disponibles
     public void descontarFolio() {
 
-        //TODO: Descontar según id arrojaro por obtenerFolio()
+        //TODO: Actualizar según el id del folio, para evitar que se modifique más de un registro
         SQLiteDatabase db = this.getReadableDatabase();
         db.execSQL("UPDATE " + UtilidadesDB.NOMBRE_TABLA_ELECTRONICA_CAF
                 + " SET " + UtilidadesDB.CAMPO_CANTIDAD + " = " + UtilidadesDB.CAMPO_CANTIDAD + " - 1"
                 + " WHERE " + UtilidadesDB.CAMPO_CANTIDAD + " > 0");
+
         db.close();
     }
 
+    //Retorna la cantidad de folios disponibles. Si hay mas de un registro,
+    // retorna el primero que se encuentre
     public String obtenerFolio() {
 
         String folio = null;
@@ -113,6 +121,9 @@ public class DBManager extends SQLiteOpenHelper {
         return folio;
     }
 
+    //TODO: Averiguar las características de este método. Según un tutorial
+    // (https://www.youtube.com/watch?v=9WiyqIcffe0), el método se ejecuta cuando encuentra
+    // una versión antigua
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
 

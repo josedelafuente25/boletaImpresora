@@ -1,7 +1,6 @@
 package com.micropos.boletaelectronica.app;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -29,6 +28,7 @@ public class ActivityConfiguraciones extends AppCompatActivity implements View.O
 
     }
 
+    //Cerrar el activity cuando se presione el botón atras en el ActionBar
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
@@ -40,7 +40,7 @@ public class ActivityConfiguraciones extends AppCompatActivity implements View.O
 
         switch (v.getId()) {
             case R.id.tv_info_comercio:
-                //TODO: Lanzar un fragment para mostrar la información del comercio
+                //TODO: Lanzar un fragment donde se mostrará la información del comercio
                 break;
         }
     }

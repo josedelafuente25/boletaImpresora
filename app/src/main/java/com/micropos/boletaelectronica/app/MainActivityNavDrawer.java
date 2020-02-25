@@ -62,7 +62,6 @@ public class MainActivityNavDrawer extends AppCompatActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-
         if (mBluetoothAdapter != null)
             if (mBluetoothAdapter.isEnabled())
                 mBluetoothAdapter.disable();

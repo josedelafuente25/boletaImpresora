@@ -1,5 +1,7 @@
 package com.micropos.boletaelectronica.app;
 
+//Clase para almacenar constantes o métodos que no son considerados necesarios de almacenar en
+// una clase independiente
 public class Utilidades {
 
     public static final float TRANSPARENCIA_25 = 0.25f;

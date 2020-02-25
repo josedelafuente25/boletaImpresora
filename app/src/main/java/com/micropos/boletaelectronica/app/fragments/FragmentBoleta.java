@@ -33,7 +33,6 @@ import static com.micropos.boletaelectronica.db.UtilidadesDB.NOMBRE_TABLA_ELECTR
 public class FragmentBoleta extends Fragment implements View.OnClickListener {
 
     private final String TAG = "MainActivity";
-    private final int NUM_MAX_CARACTERES_POR_VALOR = 16;
     private final int NUM_MAX_CARACTERES_VALOR_TOTAL = 18;
 
     private Button btnCero;
@@ -76,6 +75,7 @@ public class FragmentBoleta extends Fragment implements View.OnClickListener {
 
         btnImprimir = root.findViewById(R.id.btn_imprimir);
         btnImprimir.setOnClickListener(this);
+        //Button comentado para hacer pruebas
         //btnImprimir.setEnabled(false);
         //nImprimir.setAlpha(Utilidades.TRANSPARENCIA_25);
 
@@ -108,6 +108,7 @@ public class FragmentBoleta extends Fragment implements View.OnClickListener {
         btnNueve = root.findViewById(R.id.btn_nueve);
         btnNueve.setOnClickListener(this);
 
+        //Revisar la conexión con la impresora
         if (HPRTPrinterHelper.IsOpened()) {
             btnImprimir.setEnabled(true);
             btnImprimir.setAlpha(Utilidades.NO_TRANSPARENCIA);
@@ -217,7 +218,7 @@ public class FragmentBoleta extends Fragment implements View.OnClickListener {
                             tvFolio.setText(getResources().getString(R.string.sin_folios_disponibles));
                             tvFolio.setTextColor(getResources().getColor(R.color.colorRed));
                         } else {
-                            //TODO:Continuar aquí
+
                             tvFolio.setText(folio);
                             tvFolio.setTextColor(getResources().getColor(R.color.colorBlack));
                         }
@@ -225,10 +226,10 @@ public class FragmentBoleta extends Fragment implements View.OnClickListener {
                     } else {
 
                         Toast.makeText(getActivity(), "Sin folios disponibles", Toast.LENGTH_SHORT).show();
-                        ContentValues registro = new ContentValues();
-                        db.insertarRegistro(UtilidadesDB.NOMBRE_TABLA_ELECTRONICA_BOLETA, registro);
 
-                        registro = new ContentValues();
+                        //TODO: Mover este bloque al FragmentSolicitarFolio.
+                        //Inicio bloque
+                        ContentValues registro = new ContentValues();
                         registro.put(UtilidadesDB.CAMPO_CAF, "<xml>CAF</>");
                         long desde = 100;
                         long hasta = 105;
@@ -242,11 +243,7 @@ public class FragmentBoleta extends Fragment implements View.OnClickListener {
                         registro.put(UtilidadesDB.CAMPO_CANTIDAD, (hasta - desde));
 
                         db.insertarRegistro(UtilidadesDB.NOMBRE_TABLA_ELECTRONICA_CAF, registro);
-
-                        folio = db.obtenerFolio();
-                        tvFolio.setText(folio);
-                        tvFolio.setTextColor(getResources().getColor(R.color.colorBlack));
-
+                        //Fin bloque
                     }
                     db.close();
 
@@ -256,7 +253,8 @@ public class FragmentBoleta extends Fragment implements View.OnClickListener {
             }
         }
 
-        if (valorTotal.length() < NUM_MAX_CARACTERES_POR_VALOR) {
+        //No permitir que se ingrese mas caracteres de lo permitido
+        if (valorTotal.length() < NUM_MAX_CARACTERES_VALOR_TOTAL) {
 
             switch (v.getId()) {
                 case R.id.btn_cero:
@@ -314,6 +312,8 @@ public class FragmentBoleta extends Fragment implements View.OnClickListener {
         }
     }
 
+    //Copiar el valor en una nueva variable y formatearlo añadiendo
+    // puntos si corresponde y el símbolo $
     private String formatearValor(String str) {
 
         if (str.length() > 3) {
@@ -335,6 +335,7 @@ public class FragmentBoleta extends Fragment implements View.OnClickListener {
 
         String texto = "";
 
+        //TODO: Reemplazar por datos reales
         texto += "R.U.T: " + "12.345.678-9\n";
         texto += "BOLETA ELECTRONICA N " + "99.999\n";
         texto += "SII - TEMUCO\n\n";
@@ -363,7 +364,7 @@ public class FragmentBoleta extends Fragment implements View.OnClickListener {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
+        //Recibe el resultado de la conexión Bluetooth con el dispositivo
         try {
             String strConectado;
             switch (resultCode) {

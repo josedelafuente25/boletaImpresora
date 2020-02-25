@@ -65,6 +65,8 @@ public class FragmentBoletaCalculadora extends Fragment implements View.OnClickL
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_boleta_calculadora, container, false);
 
+        //TODO: Implementar funcionalidad este botón. Está pensado para que se utilice
+        // cuando se quiera ingresar una multiplicación.
         btnIgual = root.findViewById(R.id.btn_igual);
         btnIgual.setOnClickListener(this);
 
@@ -98,7 +100,7 @@ public class FragmentBoletaCalculadora extends Fragment implements View.OnClickL
 
         btnImprimir = root.findViewById(R.id.btn_imprimir);
         btnImprimir.setOnClickListener(this);
-        //TODO: No olvidar descomentar estas dos lineas
+        //Button comentado para hacer pruebas
         //btnImprimir.setEnabled(false);
         //btnImprimir.setAlpha(UtilidadesDB.TRANSPARENCIA_25);
 
@@ -168,7 +170,7 @@ public class FragmentBoletaCalculadora extends Fragment implements View.OnClickL
                 break;
 
             case R.id.btn_imprimir:
-
+                //TODO: Utilizar funcionalidad del btnImprimir de FragmentBoleta para replicarlo aquí
                 try {
                     if (!valorTotal.equals("0")) {
 
@@ -244,7 +246,6 @@ public class FragmentBoletaCalculadora extends Fragment implements View.OnClickL
                 break;
 
             case R.id.btn_limpiar:
-
 
                 btnIgual.setEnabled(false);
                 btnIgual.setAlpha(Utilidades.TRANSPARENCIA_25);

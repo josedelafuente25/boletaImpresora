@@ -27,8 +27,6 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
 
-        dbManager = new DBManager(this, UtilidadesDB.NOMBRE_DB, null, UtilidadesDB.DB_VERSION);
-
         textViewIncorrectPasswordUser = findViewById(R.id.text_view_usuario_contrasena_incorrecto);
         textViewIncorrectPasswordUser.setVisibility(View.INVISIBLE);
         btnIngresar = findViewById(R.id.btn_ingresar);
@@ -49,11 +47,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                 /* Codigo comentado para saltarse el LogIn
                 credenciales.put(UtilidadesDB.CAMPO_NOMBRE, editTextNombreUsuario.getText().toString());
                 credenciales.put(UtilidadesDB.CAMPO_CONSTRASENA, editTextConstrasena.getText().toString());
-                if (!dbManager.existeUsuario(credenciales)) {
-                    textViewIncorrectPasswordUser.setVisibility(View.VISIBLE);
-                    break;
-                }
-                textViewIncorrectPasswordUser.setVisibility(View.INVISIBLE);
+                //TODO: Validar login, antes de pasar a otra activity
                 Intent intent = new Intent(LogInActivity.this, MainActivity.class);
                 this.startActivity(intent);
                 break;

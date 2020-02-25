@@ -102,9 +102,8 @@ public class FragmentRCOF extends Fragment implements View.OnClickListener {
 
                     String totalNeto = db.obtenerSuma(UtilidadesDB.NOMBRE_TABLA_ELECTRONICA_BOLETA
                             , UtilidadesDB.CAMPO_NETO, UtilidadesDB.CAMPO_FECHA_EMISION, fecha);
-                    //TODO: Preguntar al Luis
-                    // si se podría dar el caso en que se encuentre solo el total iva
-                    // y el resto sea null. Si es que en algún momento se daría esa situación
+                    //Si el total neto es nulo se considera que no hay registro para tal fecha,
+                    // ya que si es nulo el totaliva y el totalgeneral serán nulos
                     if (totalNeto != null) {
                         tv_total_neto.setText(totalNeto);
                         String totalIva = db.obtenerSuma(
