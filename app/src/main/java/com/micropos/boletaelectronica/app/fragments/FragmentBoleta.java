@@ -230,14 +230,16 @@ public class FragmentBoleta extends Fragment implements View.OnClickListener {
 
                         registro = new ContentValues();
                         registro.put(UtilidadesDB.CAMPO_CAF, "<xml>CAF</>");
-                        Random r = new Random();
-                        registro.put(UtilidadesDB.CAMPO_DESDE, r.nextInt(999999999));
-                        registro.put(UtilidadesDB.CAMPO_HASTA, r.nextInt(999999999));
+                        long desde = 100;
+                        long hasta = 105;
+                        registro.put(UtilidadesDB.CAMPO_DESDE, desde);
+                        registro.put(UtilidadesDB.CAMPO_HASTA, hasta);
                         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date = new Date();
                         registro.put(UtilidadesDB.CAMPO_FECHA_ULTIMA_PETICION, dateFormat.format(date));
+
                         //Cantidad de Folios de prueba.
-                        registro.put(UtilidadesDB.CAMPO_CANTIDAD, 5);
+                        registro.put(UtilidadesDB.CAMPO_CANTIDAD, (hasta - desde));
 
                         db.insertarRegistro(UtilidadesDB.NOMBRE_TABLA_ELECTRONICA_CAF, registro);
 

@@ -23,6 +23,12 @@
         android:label="@string/rcof"
         android:layout="@layout/fragment_rcof"/>
 
+    <fragment
+        android:id="@+id/nav_solicitar_folios"
+        android:name="com.micropos.boletaelectronica.app.fragments.FragmentSolicitaFolios"
+        android:label="@string/solicitar_folios"
+        android:layout="@layout/fragment_solicita_folios"/>
+
     <activity
         android:id="@+id/nav_conf"
         android:name="com.micropos.boletaelectronica.app.ActivityConfiguraciones"

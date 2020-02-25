@@ -83,6 +83,7 @@ public class DBManager extends SQLiteOpenHelper {
 
     public void descontarFolio() {
 
+        //TODO: Descontar según id arrojaro por obtenerFolio()
         SQLiteDatabase db = this.getReadableDatabase();
         db.execSQL("UPDATE " + UtilidadesDB.NOMBRE_TABLA_ELECTRONICA_CAF
                 + " SET " + UtilidadesDB.CAMPO_CANTIDAD + " = " + UtilidadesDB.CAMPO_CANTIDAD + " - 1"

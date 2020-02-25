@@ -22,9 +22,14 @@
 
     </group>
 
+    <group android:id="@+id/group_two">
+        <item android:id="@+id/nav_solicitar_folios"
+            android:icon="@drawable/ic_folder_24dp"
+            android:title="@string/solicitar_folios"/>
+    </group>
+
     <group
-        android:id="@+id/group_config"
-        android:checkableBehavior="none">
+        android:id="@+id/group_three">
 
         <item
             android:id="@+id/nav_conf"

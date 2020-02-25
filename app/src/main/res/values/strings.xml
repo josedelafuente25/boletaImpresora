@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Boleta Electronica</string>
 
+    <!--fragment_solicita_folios-->
+    <string name="solicitar_folios">Solicitar Folios</string>
+
     <!--fragment_rcof-->
     <string name="sin_registros_encontrados">Sin Registros Encontrados</string>
     <string name="total_general">Total General:</string>
