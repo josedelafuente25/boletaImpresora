@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.micropos.boletaelectronica.R;
 import com.micropos.boletaelectronica.app.MainActivityNavDrawer;
 import com.micropos.boletaelectronica.db.DBManager;
-import com.micropos.boletaelectronica.db.UtilidadesDB;
 
 public class LogInActivity extends AppCompatActivity implements View.OnClickListener {
     private Button btnIngresar;

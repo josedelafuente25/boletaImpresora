@@ -51,6 +51,7 @@
     <string name="menu_boleta_calculadora">Boleta Calculadora</string>
     <string name="menu_boleta">Boleta</string>
     <string name="menu_configuraciones">Configuraciones</string>
+    <string name="menu_login">Sincronizar</string>
 
     <!--Login-->
     <string name="ingresar">Ingresar</string>
