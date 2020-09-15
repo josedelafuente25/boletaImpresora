@@ -34,5 +34,9 @@
         android:name="com.micropos.boletaelectronica.app.ActivityConfiguraciones"
         android:label="@string/menu_configuraciones"
         tools:layout="@layout/app_bar_activity_configuraciones" />
+    <activity
+        android:id="@+id/nav_sincronizar"
+        android:name="com.micropos.boletaelectronica.login.LogInActivity"
+        android:label="@string/menu_login" />
 
 </navigation>

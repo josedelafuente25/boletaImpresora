@@ -32,6 +32,10 @@
         android:id="@+id/group_three">
 
         <item
+            android:id="@+id/nav_sincronizar"
+            android:icon="@android:drawable/stat_notify_sync_noanim"
+            android:title="@string/menu_login" />
+        <item
             android:id="@+id/nav_conf"
             android:icon="@drawable/ic_gear_24dp"
             android:title="@string/menu_configuraciones" />
