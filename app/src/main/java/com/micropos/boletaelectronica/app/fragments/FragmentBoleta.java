@@ -66,7 +66,6 @@ public class FragmentBoleta extends Fragment implements View.OnClickListener {
                 getActivity(), NOMBRE_DB, null, UtilidadesDB.DB_VERSION);
 
         tvFolio = root.findViewById(R.id.tv_folio);
-
         btnConectar = root.findViewById(R.id.btn_conectar);
         btnConectar.setOnClickListener(this);
         tvEstadoConexion = root.findViewById(R.id.tv_estado_conexion);

@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.Button;
 
 import com.micropos.boletaelectronica.app.MainActivityNavDrawer;
-
 public class BienvenidaActivity extends AppCompatActivity {
 private Button btnEntrar;
 
