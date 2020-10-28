@@ -1,16 +1,26 @@
 package com.micropos.boletaelectronica.interfaces;
-
-
-import com.micropos.boletaelectronica.modelos.DatosUsuario;
 import com.micropos.boletaelectronica.modelos.UsuarioRespuesta;
 
-import java.util.List;
-
 import retrofit2.Call;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
+
 
 public interface ApiUsers {
 
-    @GET("?email=jose.dlf25@gmail.com&password=jose199425&dispositivo_id=3")
+    @GET("api/login/?email=jose.dlf25@gmail.com&password=jose199425&dispositivo_id=3")
     Call<UsuarioRespuesta> obtenerDatos();
+
+    @FormUrlEncoded
+    @POST("oauth/token")
+    Call<UsuarioRespuesta> enviarDatos(
+            @Field("username") String username,
+            @Field("grant_type") String grant_type,
+            @Field ("client_secret") String client_secret,
+            @Field("client_id") String client_id,
+            @Field("password") String password);
+
+
 }
