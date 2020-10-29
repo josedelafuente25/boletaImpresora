@@ -9,10 +9,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.micropos.boletaelectronica.R;
 import com.micropos.boletaelectronica.interfaces.ApiUsers;
+import com.micropos.boletaelectronica.modelos.Post;
 import com.micropos.boletaelectronica.modelos.UsuarioRespuesta;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import okhttp3.OkHttpClient;
@@ -110,26 +113,15 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
 
         ApiUsers service = retrofit.create(ApiUsers.class);
 
-        Call<UsuarioRespuesta> usuarioRespuestaCall = service.enviarDatos("jose.dlf25@gmail.com", "password", "gcuKQfgtH0dIikRnuR1WQ7brcgnRYL6qLYQHLWpm","2","jose199425");
+        Call<Post> postCall = service.enviarDatos("jose.dlf25@gmail.com", "password", "gcuKQfgtH0dIikRnuR1WQ7brcgnRYL6qLYQHLWpm",
+                "2","jose199425");
 
-
-            usuarioRespuestaCall.enqueue(new Callback<UsuarioRespuesta>() {
+            postCall.enqueue(new Callback<Post>() {
             @Override
-            public void onResponse(Call<UsuarioRespuesta> call, Response<UsuarioRespuesta> response) {
+            public void onResponse(Call<Post> call, Response<Post> response) {
 
                 if (response.isSuccessful()) {
 
-                  //  response.body();
-
-                    /*
-
-                    client_secret = response.body().getSuccess().getClient_secret();
-                    client_id = response.body().getSuccess().getClient_id().toString();
-                    username=response.body().getSuccess().getEmail();
-                    password="jose199425";
-                    grant_type="password";
-
-              */
 
                     Log.i("POST", name);
                     Log.i("POST", email);
@@ -142,13 +134,13 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                 }
             }
             @Override
-            public void onFailure(Call<UsuarioRespuesta> call, Throwable t) {
+            public void onFailure(Call<Post> call, Throwable t) {
                 Log.e(TAG, "onFailure" + t.getMessage());
             }
         });
     }
 
-
+    
     @Override
     public void onClick(View v) {
 
