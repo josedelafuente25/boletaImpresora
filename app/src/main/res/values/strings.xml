@@ -61,4 +61,31 @@
     <string name="usuario_contrasena_incorrecto">Usuario y/o Contraseña incorrecto</string>
     <string name="mantener_sesion_iniciada">Mantener sesión iniciada</string>
 
+    <string name="lorem">Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto.
+        Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500</string>
+
+    <string-array name="array_fuente">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+    <string-array name="array_negrita">
+        <item>No</item>
+        <item>Si</item>
+    </string-array>
+
+    <string-array name="array_ancho">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="array_alto">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
 </resources>

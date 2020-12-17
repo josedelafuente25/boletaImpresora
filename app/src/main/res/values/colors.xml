@@ -13,4 +13,7 @@
     <color name="colorLogIn">#800526</color>
     <color name="colorWhiteTrasparency">#CEFFFFFF</color>
     <color name="colorDivider">#E6E6E6</color>
+    <color name="negro_semitrasnparente">#49050505</color>
+    <color name="negro_semitrasnparente2">#81050505</color>
+    <color name="gris_suave">#fafafa</color>
 </resources>
